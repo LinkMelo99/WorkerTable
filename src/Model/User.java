@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.util.List;
+
 @NonNull
 @Getter
 @EqualsAndHashCode
@@ -13,8 +15,10 @@ public class User {
 
     private String FirtsName;
     private String Lastname;
-    private Tarefa tarefa;
+    private List<Tarefa> tarefa;
     private String email;
     private String password;
 
 }
+
+

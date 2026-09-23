@@ -41,5 +41,13 @@ public class ServiceUser {
         grupoTarefa.add(user);
         return grupoTarefa;
     }
+    public void deleteUserByName(String name){
+        if(name.isBlank()){
+            throw new IllegalArgumentException("Sem usuarios para deletar");
+        }
+        const repoUser
+
+        )
+    }
 
 }
