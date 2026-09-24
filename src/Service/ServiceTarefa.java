@@ -2,10 +2,15 @@ package Service;
 
 import Model.Tarefa;
 import Model.User;
+import Repository.Tarefas.TarefaRepo;
 
 import java.util.List;
 
 public class ServiceTarefa {
+
+    private final TarefaRepo repository;
+
+    public ServiceTarefa(TarefaRepo repository) {this.repository = repository;}
 
     public Tarefa createTarefa(String nome,String notes) {
         Tarefa novaTarefa= new Tarefa.builderTarefa(nome,notes).build();
@@ -13,11 +18,14 @@ public class ServiceTarefa {
         return novaTarefa;
     }
 
-    public void deleteTarefa(User user, String tarefa) {
-        if (user.getTarefa().isEmpty()) {
-            throw new IllegalArgumentException("Nao a tarefas a serem removidas.");
-        } else {
-            user.getTarefa().remove(tarefa);
+    public void deleteTarefa(User user, Tarefa tarefa) {
+        if (user==null || tarefa==null) {
+            throw new IllegalArgumentException("User e tarefa nao podem ser null");
+        }
+        int i=repository.deleteTarefa(user.getId(),tarefa.getId());
+
+        if(i>0){
+            System.out.println("Deletado.");
         }
     }
 

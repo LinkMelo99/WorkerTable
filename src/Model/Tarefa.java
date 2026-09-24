@@ -1,24 +1,27 @@
 package Model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Tarefa {
 
+    private Long id;
     private String nome;
     private LocalDateTime date;
     private String notes;
     private Concluido concluido;
+    private Long getIdUser;
 
     private static enum Concluido {
         TRUE, FALSE
     }
 
     private Tarefa(builderTarefa build) {
+        this.id=build.id;
         this.nome = build.nome;
         this.notes = build.notes;
         this.concluido = Concluido.FALSE;
         this.date = LocalDateTime.now();
+        this.getIdUser=build.getIdUser;
     }
 
     public String getNome() {
@@ -37,6 +40,13 @@ public class Tarefa {
         return concluido;
     }
 
+    public Long getId() {return id;}
+
+    public Long userId(User user){
+        return user.getId();
+    }
+
+
     @Override
     public String toString() {
         return "Tarefa{" +
@@ -52,17 +62,19 @@ public class Tarefa {
     }
 
     public static class builderTarefa {
+
+        private Long id;
         private String nome;
         private LocalDateTime date;
         private String notes;
         private Concluido concluido;
+        private Long getIdUser;
 
-        public builderTarefa(String nome, String notes) {
-            this.nome = nome;
-            this.notes = notes;
-            this.concluido = Concluido.FALSE;
-            this.date = LocalDateTime.now();
+        public builderTarefa IdUser(Long id){
+            this.getIdUser=id;
+            return this;
         }
+
         public Tarefa build() {
             return new Tarefa(this);
         }

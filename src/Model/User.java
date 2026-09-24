@@ -11,11 +11,11 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @Builder
-public class User {
 
+public class User {
+    private Long id;
     private String FirtsName;
     private String Lastname;
-    private List<Tarefa> tarefa;
     private String email;
     private String password;
 
