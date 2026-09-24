@@ -46,6 +46,9 @@ public class Tarefa {
         return user.getId();
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     @Override
     public String toString() {
@@ -74,7 +77,18 @@ public class Tarefa {
             this.getIdUser=id;
             return this;
         }
-
+        public builderTarefa Id(Long id){
+            this.id=id;
+            return this;
+        }
+        public builderTarefa notes(String notes){
+            this.notes=notes;
+            return this;
+        }
+        public builderTarefa nome(String nomes){
+            this.nome=nomes;
+            return this;
+        }
         public Tarefa build() {
             return new Tarefa(this);
         }
