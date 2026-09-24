@@ -1,15 +1,16 @@
 package Repository.Users;
 
-import Connection.ConnectionFactory;
+import ConnectionFactory.ConnectionFactory;
 import Model.Tarefa;
 import Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserRepo {
+public final class UserRepo {
 
     User user1 = User.builder().build();
     User user2 = User.builder().build();
@@ -18,7 +19,7 @@ public class UserRepo {
     List<User> listuser = List.of(user1, user2, user3);
 
 
-    private void insertUser(User user) {
+    public void insertUser(User user) {
         String sql = "INSERT INTO USER (EMAIL,PASSWORD,FIRSTNAME,LASTNAME,TAREFA) VALUES(?,?,?,?,?)";
 
         try (Connection conn = ConnectionFactory.getConnection();
@@ -40,8 +41,39 @@ public class UserRepo {
         }
     }
 
-    private void insetTarefaUser(Tarefa tarefa,User user){
+    public void insetTarefaUser(Tarefa tarefa,User user){
         String sql = "INSERT INTO USER (EMAIL,PASSWORD,FIRSTNAME,LASTNAME,TAREFA) VALUES(?,?,?,?,?)";
+    }
+
+    public User checkEmail(String email){
+        String sql = """
+        SELECT ID, LOGIN, EMAIL, SENHA
+        FROM USUARIO
+        WHERE EMAIL = ?
+        """;
+
+        if(email.isBlank() || email.isEmpty()){
+            throw new IllegalArgumentException("Email incorreto");
+        }
+
+        try(Connection conn=ConnectionFactory.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)) {
+           stmt.setString(1,email);
+
+           try(ResultSet rs= stmt.executeQuery()){
+               if(rs.next()){
+                  User user=User.builder()
+                          .email(rs.getString("EMAIL"))
+                          .build();
+                  return user;
+               }
+               return null;
+           }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

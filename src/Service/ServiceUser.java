@@ -1,15 +1,19 @@
 package Service;
 
 import Model.User;
+import Repository.Users.UserRepo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceUser {
 
+    private final UserRepo repository;
+
+    public ServiceUser(UserRepo repository){ this.repository=repository;}
 
     public User login(String email,String password){
-        User user=repository.findEmaile(email);
+        User user= UserRepo.;
 
         if(user==null){
             throw new IllegalArgumentException("Usuario nao encontrado");
