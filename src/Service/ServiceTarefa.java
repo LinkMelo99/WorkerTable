@@ -4,6 +4,7 @@ import Model.Tarefa;
 import Model.User;
 import Repository.Tarefas.TarefaRepo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ServiceTarefa {
@@ -14,11 +15,28 @@ public class ServiceTarefa {
         this.repository = repository;
     }
 
-    public Tarefa createTarefa(String nome, String notes) {
-        Tarefa novaTarefa = new Tarefa.builderTarefa(nome, notes).build();
-        "Tarefa criada: %s".formatted(novaTarefa);
-        return novaTarefa;
-    }
+    public Tarefa createTarefa(String nome, String notes) throws SQLException {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome da tarefa não pode ser vazio.");
+        }
+
+        if (notes == null || notes.isBlank()) {
+            throw new IllegalArgumentException("O notes da tarefa não pode ser vazio.");
+        }
+
+            Tarefa t=new Tarefa.builderTarefa()
+                    .nome(nome)
+                    .notes(notes)
+                    .build();
+
+            Tarefa createTarefa=repository.createTarefa(t);
+
+            if(createTarefa==null){
+                throw new RuntimeException();
+            }
+            return createTarefa;
+        }
+
 
     public void deleteTarefa(User user, Tarefa tarefa) {
         if (user == null || tarefa == null) {
@@ -37,10 +55,9 @@ public class ServiceTarefa {
             throw new IllegalArgumentException("Tarefa não encontrada.");
         }
 
-        if (id == null) {
+        if (id == null || id<0) {
             throw new IllegalArgumentException("ID inválido.");
         }
-        TarefaRepo
 
         if (!id.equals(tarefa.getId())) {
             throw new IllegalArgumentException("O ID da tarefa não corresponde.");
@@ -49,8 +66,17 @@ public class ServiceTarefa {
         if (novoNome == null || novoNome.isBlank()) {
             throw new IllegalArgumentException("O nome da tarefa não pode ser vazio.");
         }
-        tarefa.setNome(novoNome);
+
+        boolean modified=repository.updateNomeTarefaById(id, novoNome);
+
+        if (modified) {
+            tarefa.setNome(novoNome);
+            System.out.println("Alteração concluída.");
+        } else {
+            throw new IllegalArgumentException("Não foi possível alterar a tarefa.");
+        }
     }
+
 
 
 }

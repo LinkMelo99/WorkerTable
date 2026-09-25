@@ -50,6 +50,10 @@ public class Tarefa {
         this.nome = nome;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Tarefa{" +
