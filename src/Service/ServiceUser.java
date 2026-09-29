@@ -13,7 +13,7 @@ public class ServiceUser {
     public ServiceUser(UserRepo repository){ this.repository=repository;}
 
     public User login(String email,String password){
-        User user= UserRepo.;
+        User user= UserRepo;
 
         if(user==null){
             throw new IllegalArgumentException("Usuario nao encontrado");
