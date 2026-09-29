@@ -93,6 +93,7 @@ public class Tarefa {
             this.nome=nomes;
             return this;
         }
+
         public Tarefa build() {
             return new Tarefa(this);
         }

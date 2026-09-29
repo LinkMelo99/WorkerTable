@@ -2,6 +2,7 @@ package Repository.Tarefas;
 
 import ConnectionFactory.ConnectionFactory;
 import Model.Tarefa;
+import Model.User;
 
 import javax.xml.transform.Result;
 import java.sql.*;
@@ -49,15 +50,16 @@ public class TarefaRepo {
         }
     }
 
-    public Tarefa createTarefa(Tarefa tarefa) throws SQLException {
+    public Tarefa createTarefa(Tarefa tarefa, User user) throws SQLException {
 
-        String sql="INSERT INTO TAREFAS (NOME,NOTES) VALUE(?,?)";
+        String sql="INSERT INTO TAREFAS (NOME,NOTES,USER_ID) VALUE(?,?,?)";
 
         try(Connection conn=ConnectionFactory.getConnection();
         PreparedStatement stmt= conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
             stmt.setString(1, tarefa.getNome());
             stmt.setString(2, tarefa.getNotes());
+            stmt.setLong(3,user.getId());
 
             int i= stmt.executeUpdate();
             if (i == 0) {
@@ -65,12 +67,12 @@ public class TarefaRepo {
             }
             try(ResultSet rs= stmt.getGeneratedKeys()){
                 if(rs.next()){
-                    Long idGerado=rs.getLong(1);
-                    tarefa.setId(idGerado);
+                    tarefa.setId(rs.getLong(1));
+                    tarefa.setId(user.getId());
 
                     return tarefa;
-                }
 
+                }
                 throw new SQLException("ID não foi gerado.");
             }
         }
@@ -105,10 +107,42 @@ public class TarefaRepo {
                     if(tarefasDoUsuario.isEmpty()){
                         System.out.println("Usuario ja completou suas tarefas");
                     }
-                    return tarefasDoUsuario;
                 }
 
             }
+        }
+        return tarefasDoUsuario;
+    }
+
+    public List<User> findUsersByTarefa(Tarefa tarefa) throws SQLException {
+
+        List<User>listaDeUsuariosDaTarefaEspecifica=new ArrayList<>();
+
+        String sql = "SELECT U.ID, U.FIRST_NAME,U.LAST_NAME, U.EMAIL FROM USUARIOS U "
+                + "JOIN TAREFA_USUARIO TU ON TU.ID_USUARIO = U.ID "
+                + "WHERE TU.ID_TAREFA = ?";
+
+        try(Connection conn=ConnectionFactory.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setLong(1,tarefa.getId());
+
+            try(ResultSet rs= stmt.executeQuery()){
+                while(rs.next()){
+                    Long id=rs.getLong("ID");
+                    String FirstName=rs.getString("FIRST_NAME");
+                            String LastName=rs.getString("LAST_NAME");
+                            String email=rs.getString("email");
+
+                    listaDeUsuariosDaTarefaEspecifica.add(User.builder()
+                            .id(id).FirtsName(FirstName).Lastname(LastName).email(email).build());
+
+                }
+                if(listaDeUsuariosDaTarefaEspecifica.isEmpty()){
+                    System.out.println("Todos os usuarios ja cumprirao a tarefa");
+                }
+            }
+            return listaDeUsuariosDaTarefaEspecifica;
         }
     }
 }

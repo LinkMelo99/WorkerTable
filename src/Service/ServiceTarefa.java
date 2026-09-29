@@ -77,6 +77,8 @@ public class ServiceTarefa {
         }
     }
 
+    public List<User>listaDeUsuariosDeTarefa(){}
+
 
 
 }
