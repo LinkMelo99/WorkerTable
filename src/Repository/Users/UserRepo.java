@@ -25,14 +25,14 @@ public final class UserRepo {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1,user.getEmail());
-            stmt.setString(2,user.getPassword());
-            stmt.setString(3,user.getFirtsName());
-            stmt.setString(4,user.getLastname());
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getFirtsName());
+            stmt.setString(4, user.getLastname());
 
-            int i=stmt.executeUpdate();
+            int i = stmt.executeUpdate();
 
-            if(i>0){
+            if (i > 0) {
                 System.out.println("Usuario adicionado");
             }
 
@@ -41,34 +41,30 @@ public final class UserRepo {
         }
     }
 
-    public void insetTarefaUser(Tarefa tarefa,User user){
-        String sql = "INSERT INTO USER (EMAIL,PASSWORD,FIRSTNAME,LASTNAME,TAREFA) VALUES(?,?,?,?,?)";
-    }
-
-    public User checkEmail(String email){
+    public User checkEmail(String email) {
         String sql = """
-        SELECT ID, LOGIN, EMAIL, SENHA
-        FROM USUARIO
-        WHERE EMAIL = ?
-        """;
+                SELECT ID, LOGIN, EMAIL, SENHA
+                FROM USUARIO
+                WHERE EMAIL = ?
+                """;
 
-        if(email.isBlank() || email.isEmpty()){
+        if (email.isBlank() || email.isEmpty()) {
             throw new IllegalArgumentException("Email incorreto");
         }
 
-        try(Connection conn=ConnectionFactory.getConnection();
-        PreparedStatement stmt=conn.prepareStatement(sql)) {
-           stmt.setString(1,email);
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
 
-           try(ResultSet rs= stmt.executeQuery()){
-               if(rs.next()){
-                  User user=User.builder()
-                          .email(rs.getString("EMAIL"))
-                          .build();
-                  return user;
-               }
-               return null;
-           }
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = User.builder()
+                            .email(rs.getString("EMAIL"))
+                            .build();
+                    return user;
+                }
+                return null;
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,4 +72,77 @@ public final class UserRepo {
 
     }
 
+    public int inativeUser(User user) throws SQLException {
+
+        String sql = """
+                UPDATE USER
+                SET ATIVO = FALSE
+                WHERE ATIVO = TRUE AND ID = ?
+                """;
+        int rowsAffected = 0;
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, user.getId());
+
+            rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new IllegalArgumentException("Nao foi deletado");
+            }
+        }
+        return rowsAffected;
+    }
+
+    public int deleteUser(User user) throws SQLException {
+        String sql = """
+                DELETE FROM USER WHERE ID=?
+                """;
+        int rowsAffected = 0;
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, user.getId());
+            stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new IllegalArgumentException("Nao foi deletado");
+            }
+        }
+        return rowsAffected;
+    }
+
+    public User findById(Long id) throws SQLException {
+        String sql = """
+                SELECT ID,FIRTS_NAME,LAST_NAME,EMAIL FROM USER WHERE ID=? AND ATIVO=TRUE;
+                """;
+
+        User user=null;
+
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                  Long UserId=  rs.getLong("ID");
+                  String FirtsName= rs.getString("FIRTS_NAME");
+                  String LastName=  rs.getString("LAST_NAME");
+                  String email= rs.getString("EMAIL");
+
+                    user = new User.UserBuilder()
+                            .id(UserId)
+                            .FirtsName(FirtsName)
+                            .Lastname(LastName)
+                            .email(email)
+                            .build();
+                }
+            }
+        }
+        return user;
+    }
 }

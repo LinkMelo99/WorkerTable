@@ -8,6 +8,7 @@ import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class TarefaRepo {
@@ -103,10 +104,6 @@ public class TarefaRepo {
                             .build();
 
                     tarefasDoUsuario.add(tarefasDoUser);
-
-                    if(tarefasDoUsuario.isEmpty()){
-                        System.out.println("Usuario ja completou suas tarefas");
-                    }
                 }
 
             }
@@ -138,11 +135,26 @@ public class TarefaRepo {
                             .id(id).FirtsName(FirstName).Lastname(LastName).email(email).build());
 
                 }
-                if(listaDeUsuariosDaTarefaEspecifica.isEmpty()){
-                    System.out.println("Todos os usuarios ja cumprirao a tarefa");
-                }
             }
             return listaDeUsuariosDaTarefaEspecifica;
+        }
+    }
+
+    public void createGroupForTarefa(Tarefa tarefa,User user) throws SQLException {
+        Objects.requireNonNull(tarefa,"Tarefa nao pode ser nula");
+        Objects.requireNonNull(user,"Usuario nao pode ser nula");
+
+        String sql="INSERT INTO TAREFA_USER (ID_USER,ID_TAREFA) VALUES(?,?)";
+
+        try(Connection conn=ConnectionFactory.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setLong(1,user.getId());
+            stmt.setLong(2,tarefa.getId());
+
+            if(stmt.executeUpdate()==0){
+                System.out.println("Error: Nao foi criado o grupo");
+            }
         }
     }
 }
