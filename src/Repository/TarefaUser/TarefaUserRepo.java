@@ -40,22 +40,27 @@ public class TarefaUserRepo {
         }
     }
 
-    public void createGroupForTarefa(Tarefa tarefa,User user) throws SQLException {
-        Objects.requireNonNull(tarefa,"Tarefa nao pode ser nula");
-        Objects.requireNonNull(user,"Usuario nao pode ser nula");
+    public int insertGroupForTarefa(Tarefa tarefa,List<User> users) throws SQLException {
+        Objects.requireNonNull(tarefa, "Tarefa nao pode ser nula");
+        Objects.requireNonNull(users, "Usuario nao pode ser nula");
+        int linhasAfetadas=0;
+        String sql = "INSERT INTO TAREFA_USER (ID_USER,ID_TAREFA) VALUES(?,?)";
 
-        String sql="INSERT INTO TAREFA_USER (ID_USER,ID_TAREFA) VALUES(?,?)";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try(Connection conn=ConnectionFactory.getConnection();
-            PreparedStatement stmt=conn.prepareStatement(sql)){
+            for (User user : users) {
+                stmt.setLong(1, user.getId());
+                stmt.setLong(2, tarefa.getId());
+                 linhasAfetadas = stmt.executeUpdate();
 
-            stmt.setLong(1,user.getId());
-            stmt.setLong(2,tarefa.getId());
-
-            if(stmt.executeUpdate()==0){
-                System.out.println("Error: Nao foi criado o grupo");
+                if (linhasAfetadas == 0) {
+                    System.out.println("Erro: associação não criada para o usuário "
+                            + user.getId());
+                }
             }
         }
+        return linhasAfetadas;
     }
     public List<Tarefa> findTarefasByUsersId(Long id) throws SQLException {
 
@@ -86,5 +91,27 @@ public class TarefaUserRepo {
             }
         }
         return tarefasDoUsuario;
+    }
+
+    public int deleteUserFromTarefaById(Long userId,Long tarefaId) throws SQLException {
+        if(userId==null || tarefaId==null ){
+            throw new IllegalArgumentException("Id nao informado");
+        }
+        int i=0;
+        String sql= " DELETE FROM TAREFA_USER WHERE USER_ID=? AND TAREFA_ID=?";
+
+        try(Connection conn=ConnectionFactory.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setLong(1,userId);
+            stmt.setLong(2,tarefaId);
+
+            i=stmt.executeUpdate();
+
+            if(i==0){
+                throw new Error("Nao houve remocao do usuario");
+            }
+        }
+        return i;
     }
 }

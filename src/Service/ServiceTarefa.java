@@ -76,9 +76,4 @@ public class ServiceTarefa {
             throw new IllegalArgumentException("Não foi possível alterar a tarefa.");
         }
     }
-
-    public List<User>listaDeUsuariosDeTarefa(){}
-
-
-
 }

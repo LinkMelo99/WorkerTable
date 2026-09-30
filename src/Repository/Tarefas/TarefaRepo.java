@@ -30,6 +30,7 @@ public class TarefaRepo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return 0;
     }
 
     public boolean updateNomeTarefaById(Long id, String novoNome) {
@@ -71,30 +72,6 @@ public class TarefaRepo {
                     return tarefa;
                 }
                 throw new SQLException("ID não foi gerado.");
-            }
-        }
-    }
-
-    public Tarefa findTarefaById(Long id) throws SQLException {
-
-        String sql= """
-                SELECT ID,NOME,NOTES WHERE ID=?
-                """;
-
-        try(Connection conn=ConnectionFactory.getConnection();
-        PreparedStatement stmt=conn.prepareStatement(sql)){
-
-            stmt.setLong(1,id);
-
-            try(ResultSet rs=stmt.executeQuery()){
-                String nome = rs.getString("NOME");
-                String notes = rs.getString("NOTES");
-
-                return new Tarefa.builderTarefa()
-                        .Id(id)
-                        .nome(nome)
-                        .notes(notes)
-                        .build();
             }
         }
     }
