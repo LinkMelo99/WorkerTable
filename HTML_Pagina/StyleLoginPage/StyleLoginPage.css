@@ -1,0 +1,94 @@
+:root {
+    --accent: #3d64b6;
+    --on-accent: #fff;
+    --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+    --font-ui: "Space Grotesk", system-ui, -apple-system, sans-serif;
+    --r-md: 10px;
+    --gold: #e0a82e;
+}
+
+
+body{
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    grid-template-columns: 3fr 2fr;
+    font-family: var(--font-ui), serif ;
+}
+
+.logoNome{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    top: 5rem;
+    background: linear-gradient(90deg, #dbe6fd 0%, #7fa2f5 25%, #dbe6fd 75% );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+    background-size: 300% 100%;
+    animation: travel 10s ease-in-out infinite alternate;
+}
+@keyframes travel  {
+    from { background-position: 0% 100%; }
+    to   { background-position: 170% 50%; }
+}
+
+.ladoEsq {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--accent), #769efd);
+}
+
+
+input,
+button {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.60rem ;
+    font-family: var(--font-ui), serif;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+}
+
+input {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.15);
+    border-radius: var(--r-md);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+button {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: var(--r-md);
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 200px;
+}
+.email,.senha{
+    display: flex;
+    flex-direction: column;
+    gap: 0.50rem;
+    font-size: 10px;
+
+}
+.ladoDir{
+    background-color: #ecf1fa;
+    flex: 5;
+}
