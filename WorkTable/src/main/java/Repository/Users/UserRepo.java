@@ -1,29 +1,28 @@
 package Repository.Users;
 
 import ConnectionFactory.ConnectionFactory;
-import Model.Tarefa;
 import Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public final class UserRepo {
 
-    User user1 = User.builder().build();
-    User user2 = User.builder().build();
-    User user3 = User.builder().build();
-
-    List<User> listuser = List.of(user1, user2, user3);
-
 
     public void insertUser(User user) {
-        String sql = "INSERT INTO USER (EMAIL,PASSWORD,FIRSTNAME,LASTNAME,TAREFA) VALUES(?,?,?,?,?)";
 
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String sql = """
+            INSERT INTO USUARIO
+            (EMAIL, SENHA, FIRST_NAME, LAST_NAME)
+            VALUES (?, ?, ?, ?)
+            """;
+
+        try (
+                Connection conn = ConnectionFactory.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
 
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getPassword());
@@ -33,7 +32,7 @@ public final class UserRepo {
             int i = stmt.executeUpdate();
 
             if (i > 0) {
-                System.out.println("Usuario adicionado");
+                System.out.println("Usuário adicionado");
             }
 
         } catch (SQLException e) {
@@ -134,7 +133,7 @@ public final class UserRepo {
                   String LastName=  rs.getString("LAST_NAME");
                   String email= rs.getString("EMAIL");
 
-                    user = new User.UserBuilder()
+                    user = User.builder()
                             .id(UserId)
                             .FirtsName(FirtsName)
                             .Lastname(LastName)

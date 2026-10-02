@@ -42,8 +42,8 @@ public class Tarefa {
 
     public Long getId() {return id;}
 
-    public Long userId(User user){
-        return user.getId();
+    public Long userId(){
+        return this.id;
     }
 
     public void setNome(String nome) {

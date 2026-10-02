@@ -2,13 +2,8 @@ package Repository.Tarefas;
 
 import ConnectionFactory.ConnectionFactory;
 import Model.Tarefa;
-import Model.User;
 
-import javax.xml.transform.Result;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 
 public class TarefaRepo {

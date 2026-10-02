@@ -5,7 +5,6 @@ import Model.User;
 import Repository.Tarefas.TarefaRepo;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class ServiceTarefa {
 
