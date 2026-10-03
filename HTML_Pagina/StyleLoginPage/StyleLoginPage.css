@@ -18,7 +18,7 @@ body {
     display: flex;
     min-height: 100vh;
     margin: 0;
-    font-family: var(--font-ui);
+    font-family: var(--font-ui),serif;
 }
 
 /* ---------- Layout ---------- */
@@ -36,6 +36,25 @@ body {
 .ladoDir {
     flex: 5;
     background-color: #ecf1fa;
+}
+.boxTable {
+    border: 1px solid black;
+    padding: 20px;
+    display: flex;
+    width: 50%;
+    height: 50%;
+    font-family: var(--font-ui), serif;
+    font-size: 0.85rem;
+    border-radius: var(--r-md);
+
+    touch-action: none;
+    position: absolute;
+
+    cursor: grab;
+}
+
+.boxTable:active {
+    cursor: grabbing;
 }
 
 /* ---------- Logo ---------- */
@@ -96,7 +115,7 @@ input,
 button[type="submit"] {
     width: 100%;
     padding: 0.6rem;
-    font-family: var(--font-ui);
+    font-family: var(--font-ui),serif;
     font-size: 0.85rem;
     border: 1px solid transparent;
     border-radius: var(--r-md);
@@ -132,8 +151,8 @@ button[type="submit"]:hover {
     height: 40px;
     padding: 0 12px;
     overflow: hidden;
-    background-color: #fff;
-    border: 1px solid #747775;
+    background-color: #dbe6fd;
+    border: 1px solid #3d64b6;
     border-radius: 4px;
     color: #1f1f1f;
     cursor: pointer;
