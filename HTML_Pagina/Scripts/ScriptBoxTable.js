@@ -1,31 +1,115 @@
-const getBox=document.getElementById("boxTable")
+const getBox = document.getElementById("boxTable");
+const ladoDir = document.getElementById("ladoDir");
+const ladoEsq = document.querySelector(".ladoEsq");
+const seta = document.getElementById("setaVoltar");
 
-let arrastando=false;
-let eixoX=0;
-let eixoY=0;
+let arrastando = false;
+let moveu = false;
+let eixoX = 0;
+let eixoY = 0;
+let inicioX = 0;
+let inicioY = 0;
+let ultimoX = 0;
+let ultimoY = 0;
 
+function limitar(left, top) {
+    const limiteLeft = ladoDir.clientWidth  - getBox.offsetWidth;
+    const limiteTop  = ladoDir.clientHeight - getBox.offsetHeight;
 
-getBox.addEventListener("pointerdown",(event)=>{
+    return {
+        left: Math.max(0, Math.min(left, limiteLeft)),
+        top:  Math.max(0, Math.min(top, limiteTop))
+    };
+}
 
-    arrastando=true;
+function posicionarNoPonteiro() {
+    const dirRect = ladoDir.getBoundingClientRect();
 
-    eixoX=event.clientX-getBox.offsetLeft;
-    eixoY=event.clientY-getBox.offsetTop;
+    const pos = limitar(
+        ultimoX - dirRect.left - ladoDir.clientLeft - eixoX,
+        ultimoY - dirRect.top  - ladoDir.clientTop  - eixoY
+    );
+
+    getBox.style.left = `${pos.left}px`;
+    getBox.style.top  = `${pos.top}px`;
+}
+
+function manterDentro() {
+    const pos = limitar(getBox.offsetLeft, getBox.offsetTop);
+    getBox.style.left = `${pos.left}px`;
+    getBox.style.top  = `${pos.top}px`;
+}
+
+function acompanharTransicao(ms = 700) {
+    const fim = performance.now() + ms;
+
+    function quadro() {
+        manterDentro();
+        if (performance.now() < fim) requestAnimationFrame(quadro);
+    }
+    quadro();
+}
+
+function loopArraste() {
+    if (!arrastando) return;
+    if (moveu) posicionarNoPonteiro();
+    requestAnimationFrame(loopArraste);
+}
+
+window.addEventListener("load", () => {
+    getBox.style.left = `${(ladoDir.clientWidth  - getBox.offsetWidth)  / 2}px`;
+    getBox.style.top  = `${(ladoDir.clientHeight - getBox.offsetHeight) / 2}px`;
+});
+
+window.addEventListener("resize", manterDentro);
+
+getBox.addEventListener("pointerdown", (event) => {
+    arrastando = true;
+    moveu = false;
+
+    inicioX = ultimoX = event.clientX;
+    inicioY = ultimoY = event.clientY;
+
+    const boxRect = getBox.getBoundingClientRect();
+    eixoX = event.clientX - boxRect.left;
+    eixoY = event.clientY - boxRect.top;
 
     getBox.setPointerCapture(event.pointerId);
-})
+    requestAnimationFrame(loopArraste);
+});
 
-getBox.addEventListener("pointermove",(event)=>{
+getBox.addEventListener("pointermove", (event) => {
+    if (!arrastando) return;
 
-    if(!arrastando) return;
+    ultimoX = event.clientX;
+    ultimoY = event.clientY;
 
-    getBox.style.left = `${event.clientX - eixoX}px`;
-    getBox.style.top = `${event.clientY - eixoY}px`;
-})
+    if (!moveu && Math.hypot(ultimoX - inicioX, ultimoY - inicioY) > 5) {
+        moveu = true;
+        ladoEsq.classList.add("escondido");
+        seta.classList.remove("visivel");
+    }
 
-getBox.addEventListener("pointerup", (event) => {
+    if (moveu) posicionarNoPonteiro();
+});
 
+function soltar(event) {
     arrastando = false;
 
-    getBox.releasePointerCapture(event.pointerId);
+    if (getBox.hasPointerCapture(event.pointerId)) {
+        getBox.releasePointerCapture(event.pointerId);
+    }
+
+    if (ladoEsq.classList.contains("escondido")) {
+        seta.classList.add("visivel");
+    }
+}
+
+getBox.addEventListener("pointerup", soltar);
+getBox.addEventListener("pointercancel", soltar);
+
+seta.addEventListener("click", () => {
+    ladoEsq.classList.remove("escondido");
+    seta.classList.remove("visivel");
+    acompanharTransicao();
 });
