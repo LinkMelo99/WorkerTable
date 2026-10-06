@@ -64,6 +64,9 @@ window.addEventListener("load", () => {
 window.addEventListener("resize", manterDentro);
 
 getBox.addEventListener("pointerdown", (event) => {
+
+    if (event.target.closest("input, button, label, li")) return;
+
     arrastando = true;
     moveu = false;
 
