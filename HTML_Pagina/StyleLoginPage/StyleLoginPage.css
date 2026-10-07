@@ -189,7 +189,7 @@ input,
 button[type="submit"] {
     width: 100%;
     padding: 0.6rem;
-    font-family: var(--font-ui),serif;
+    font-family: var(--font-ui), serif;
     font-size: 0.85rem;
     border: 1px solid transparent;
     border-radius: var(--r-md);
@@ -216,6 +216,130 @@ button[type="submit"] {
 button[type="submit"]:hover {
     filter: brightness(1.15);
 }
+
+/* ---------- To-do ---------- */
+.todo {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    min-height: 0;
+    color: var(--on-accent);
+}
+
+.textBox {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.textWorksBox {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* input + bolinha lado a lado */
+.listTarefa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* input vira só uma linha (sobrescreve o `input` global) */
+.listTarefa input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    padding: 6px 2px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--on-accent);
+    border-radius: 0;
+    color: var(--on-accent);
+    box-shadow: none;
+    user-select: text;
+    cursor: text;
+}
+
+.listTarefa input:focus {
+    border-bottom-color: #2ecc71;
+    box-shadow: none;
+}
+
+.listTarefa input::placeholder {
+    color: color-mix(in srgb, var(--on-accent) 65%, transparent);
+}
+
+/* bolinha transparente que fica verde no hover */
+.btn-adicionar {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    border: 2px solid var(--on-accent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--on-accent);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+}
+
+.btn-adicionar:hover {
+    background: #2ecc71;
+    border-color: #2ecc71;
+}
+
+/* lista */
+#listaTarefas {
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+}
+
+#listaTarefas li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+#listaTarefas::-webkit-scrollbar{
+    width: 6px;
+}
+#listaTarefas::-webkit-scrollbar-track{
+    background: transparent;
+}
+#listaTarefas::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,.5);
+    border-radius: 999px;
+}
+#listaTarefas::-webkit-scrollbar-thumb:hover {
+    background:rgba(255,255,255,.5);}
+
+
+.btn-remover {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-left: 8px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--on-accent);
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-remover:hover {
+    background: #e74c3c;
+}
+
 
 /* ---------- Botão Google ---------- */
 .gsi-material-button {
