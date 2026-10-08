@@ -99,30 +99,37 @@
             </div>
         </div>
 
-        <template id="modeloTarefa">
-            <li>
-                <div class="textoTopo">
-                    <span class="textoTitulo"></span>
-                    <div class="acoes">
-                        <button type="button" class="buttonData"
-                                aria-label="Definir datas" aria-expanded="false">📅</button>
-                        <button type="button" class="buttonRemover"
-                                aria-label="Remover tarefa">x</button>
-                    </div>
-                </div>
+    </div>
+</div>
 
-                <small class="textoHidden" hidden></small>
 
-                <div class="datasInicioeFim" hidden>
-                    <label>Início <input type="datetime-local" class="dataInicio"></label>
-                    <label>Fim <input type="datetime-local" class="dataFim"></label>
-                </div>
-            </li>
-        </template>
+<template id="modeloTarefa">
+    <li>
+        <div class="textoTopo">
+            <span class="textoTitulo"></span>
+            <div class="acoes">
+                <button type="button" class="buttonData"
+                        aria-label="Definir datas" aria-expanded="false">📅
+                </button>
+                <button type="button" class="buttonRemover"
+                        aria-label="Remover tarefa">x
+                </button>
+            </div>
+        </div>
+
+        <small class="textoHidden" hidden></small>
+
+        <div class="datasInicioeFim" hidden>
+            <label>Início <input type="datetime-local" class="dataInicio"></label>
+            <label>Fim <input type="datetime-local" class="dataFim"></label>
+        </div>
+    </li>
+</template>
 
 
         <script src="Scripts/ScriptCriarTarefa.js"></script>
 
         <script src="Scripts/ScriptBoxTable.js"></script>
+
 </body>
 </html>
