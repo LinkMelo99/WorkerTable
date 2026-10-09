@@ -72,6 +72,51 @@ function criarTarefa(tarefa) {
 
 
 
+function criarNota() {
+    const notes = document.getElementById('notes');
+    const clone = notes.content.cloneNode(true);
+
+    // referências dentro do clone
+    const nota      = clone.querySelector('.nota');
+    const caixa     = clone.querySelector('.caixaDoNotes');
+    const input     = clone.querySelector('.textoDescricao');
+    const btnToggle = clone.querySelector('.btnToggle');
+    const btnAdd    = clone.querySelector('.btnAdicionarDescricao');
+    const btnRem    = clone.querySelector('.btnRemoverDescricao');
+
+    btnToggle.addEventListener('click', () => {
+        caixa.hidden = !caixa.hidden;
+        btnToggle.setAttribute('aria-expanded', String(!caixa.hidden));
+    });
+
+    botaoAdicionar(btnAdd, input, caixa);
+    botaoRemover(btnRem, nota);   // remove a nota inteira, inclusive o botão de abrir
+
+    document.getElementById('container').appendChild(clone);
+}
+
+document.getElementById('btnNovaNota').addEventListener('click', criarNota);
+
+function botaoAdicionar(btnAdd,text,box) {
+    btnAdd.addEventListener('click',()=>{
+
+        const texto=text.value.trim()
+        if(texto==='')return;
+
+        const p=document.createElement('p')
+        p.textContent=texto
+        caixa.appendChild(p)
+
+        text.value=''
+    })
+}
+function botaoRemover(btnRem, box) {
+    btnRem.addEventListener('click', () => {
+        box.remove();   // remove a caixa e tudo que está dentro dela
+    });
+}
+
+
 function adicionarTarefa() {
     const tarefa = lerTarefa()
     if (tarefa === null) return
