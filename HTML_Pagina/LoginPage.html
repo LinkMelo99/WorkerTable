@@ -84,10 +84,10 @@
         <div class="todo">
 
             <div class="textBox" id="textBox">
-                <label for="tarefaExeample" class="textWorksBox">Works</label>
+                <label for="nomeTarefa" class="textWorksBox">Works</label>
 
                 <div class="listTarefa">
-                    <input type="text" id="tarefaExeample" name="textTarefa"
+                    <input type="text" id="nomeTarefa" name="textTarefa"
                            placeholder="Nova tarefa" autocomplete="off">
                     <button id="btnAdicionar" class="btn-adicionar" type="button"
                             aria-label="Adicionar tarefa">+
@@ -102,56 +102,33 @@
     </div>
 </div>
 
-
 <template id="modeloTarefa">
     <li>
-        <div class="textoTopo">
-            <span class="textoTitulo"></span>
-            <div class="acoes">
-                <button type="button" class="buttonData"
-                        aria-label="Definir datas" aria-expanded="false">📅
-                </button>
-                <button type="button" class="buttonRemover"
-                        aria-label="Remover tarefa">x
-                </button>
-            </div>
+        <span class="tarefaTitulo"></span>
+
+        <div class="caixaData">
+        <button type="button" class="adicionarData" >DATA</button>
         </div>
 
-        <small class="textoHidden" hidden></small>
-
-        <div class="datasInicioeFim" hidden>
-            <label>Início <input type="datetime-local" class="dataInicio"></label>
-            <label>Fim <input type="datetime-local" class="dataFim"></label>
+        <div class="caixaDescricao">
+        <button type="button" class="adicionarDescricao" >DESCRICAO</button>
         </div>
+
+        <div class="caixaRemover">
+        <button type="button" class="removerTarefa" >REMOVE</button>
+        </div>
+
+        <input type="datetime-local" class="inputData" aria-label="Data e hora" hidden>
+        <input type="text" class="inputDescricao" placeholder="Descrição" hidden>
+
+        <small class="textoData" hidden></small>
+        <small class="textoDescricao" hidden></small>
     </li>
+
 </template>
+<script src="Scripts/ScriptCriarTarefa.js"></script>
 
-
-<!--Template para botao de notes-->
-<template class="BotaoDeNotes" id="notes">
-    <div class="nota">
-        <button class="btnToggle" type="button" aria-expanded="false">Abrir nota</button>
-
-        <div class="caixaDoNotes" hidden>
-            <div class="inputDescricao">
-                <label class="descricao">Descrição
-                    <input type="text" class="textoDescricao">
-                </label>
-
-                <button class="btnAdicionarDescricao" type="button">XX</button>
-                <button class="btnRemoverDescricao" type="button">YY</button>
-            </div>
-        </div>
-    </div>
-</template>
-
-<button id="btnNovaNota" type="button">Nova nota</button>
-<div id="container"></div>
-
-
-        <script src="Scripts/ScriptCriarTarefa.js"></script>
-
-        <script src="Scripts/ScriptBoxTable.js"></script>
+<script src="Scripts/ScriptBoxTable.js"></script>
 
 </body>
 </html>
