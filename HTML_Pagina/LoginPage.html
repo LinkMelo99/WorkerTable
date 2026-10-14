@@ -81,17 +81,18 @@
     </button>
 
     <div class="boxTable" id="boxTable">
+
+        <!--Titulo da box-->
         <div class="tituloDaBox">
-            <label class="tituloBox" for="tituloBox">Titulo</label>
-            <input type="text" id="tituloBox" class="inputDoTituloDaBox">
-            <button type="button" class="buttonTituloTarefa">+++</button>
+            <label class="tituloBox" for="tituloBox"> <input type="text" id="tituloBox" value="WorkTable"
+                                                                    class="inputDoTituloDaBox"></label>
         </div>
 
         <div class="TituloTarefa">
-            <label for="nomeTarefa">NomeTarefa</label>
-            <input type="text" id="nomeTarefa" required>
+            <label class="nomeTarefa" for="nomeTarefa"></label>
+            <input type="text" id="nomeTarefa" value="Tarefa 1" class="inputNomeTarefa" required>
 
-            <button type="button" class="buttonAdicionar">+</button>
+            <button type="click" class="buttonAdicionar"></button>
         </div>
 
         <ul class="listaDeTarefas"></ul>
@@ -131,8 +132,8 @@
             <label>Fim <input type="datetime-local" class="dataFim"></label>
         </div>
 
-        <div class="descricaoNotes">
-           <label>Descricao<input type="text"></label>
+        <div class="descricaoNotes" hidden>
+           <label>Descricao<input type="text" class="inputDescricao"></label>
         </div>
 
     </li>
