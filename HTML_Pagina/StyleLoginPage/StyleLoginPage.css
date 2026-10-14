@@ -96,6 +96,9 @@ body {
 
 .boxTable {
     background: var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     border-radius: 20px;
     position: absolute;
     left: 15px;
@@ -103,7 +106,6 @@ body {
     box-sizing: border-box;
     border: 10px #ecf1fa;
     padding: 20px;
-    display: flex;
     width: 30%;
     height: 30%;
     font-size: 0.85rem;
@@ -271,27 +273,66 @@ button[type="submit"]:hover {
     color: color-mix(in srgb, var(--on-accent) 65%, transparent);
 }
 
-/* bolinha transparente que fica verde no hover */
-.btn-adicionar {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    padding: 0;
-    margin: 0;
-    border: 2px solid var(--on-accent);
-    border-radius: 50%;
-    background: transparent;
-    color: var(--on-accent);
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    transition: background .2s, border-color .2s;
+.TituloTarefa{
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.btn-adicionar:hover {
-    background: #2ecc71;
-    border-color: #2ecc71;
+/* Box-Nome Tarefa */
+.tituloDaBox {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
 }
+
+.inputDoTituloDaBox {
+    background: linear-gradient(90deg, #dbe6fd 0%, #dbe6fd 75%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    border: none;
+    border-bottom: 1px none;
+    border-radius: 0;
+    outline: none;
+    caret-color: #000;
+
+    text-align: center;
+    font-size: 20px;
+
+    animation: travel 10s ease-in-out infinite alternate;
+}
+
+.inputDoTituloDaBox::placeholder {
+    font-size: var(--font-ui);
+    color: rgba(0, 0, 0, 0.4);
+}
+.inputDoTituloDaBox:-webkit-autofill,
+.inputDoTituloDaBox:-webkit-autofill:focus {
+    -webkit-text-fill-color: transparent;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+.inputNomeTarefa{
+    background: transparent;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    outline: none;
+}
+.inputNomeTarefa::placeholder{
+    font-size: var(--font-ui);
+}
+.inputNomeTarefa:focus{
+    border-bottom: 1px solid #000;
+}
+
+
 
 /* lista */
 #listaTarefas {

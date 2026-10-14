@@ -81,54 +81,70 @@
     </button>
 
     <div class="boxTable" id="boxTable">
-        <div class="todo">
 
-            <div class="textBox" id="textBox">
-                <label for="nomeTarefa" class="textWorksBox">Works</label>
+        <!--Titulo da box-->
+        <div class="tituloDaBox">
+            <label class="tituloBox" for="tituloBox"> <input type="text" id="tituloBox" value="WorkTable"
+                                                                    class="inputDoTituloDaBox"></label>
+        </div>
 
-                <div class="listTarefa">
-                    <input type="text" id="nomeTarefa" name="textTarefa"
-                           placeholder="Nova tarefa" autocomplete="off">
-                    <button id="btnAdicionar" class="btn-adicionar" type="button"
-                            aria-label="Adicionar tarefa">+
-                    </button>
-                </div>
+        <div class="TituloTarefa">
+            <label class="nomeTarefa" for="nomeTarefa"></label>
+            <input type="text" id="nomeTarefa" value="Tarefa 1" class="inputNomeTarefa" required>
 
-                <ul id="listaTarefas"></ul>
+            <button type="click" class="buttonAdicionar"></button>
+        </div>
+
+        <ul class="listaDeTarefas"></ul>
+
+    </div>
+
+</div>
+
+
+<template id="modeloTarefa">
+    <li>
+        <div class="textoTopo">
+            <span class="textoTitulo"></span>
+
+            <div class="acoes">
+                <button type="button" class="buttonData"
+                        aria-label="Definir datas" aria-expanded="false">📅
+                </button>
+
+                <button type="button" class="buttonRemover"
+                        aria-label="Remover tarefa">x
+                </button>
+
+                <button type="button" class="buttonNotes"
+                        aria-expanded="false">Notes
+                </button>
+
 
             </div>
         </div>
 
-    </div>
-</div>
+        <small class="textoHidden" hidden></small>
+        <small class="descricaoHidden" hidden></small>
 
-<template id="modeloTarefa">
-    <li>
-        <span class="tarefaTitulo"></span>
-
-        <div class="caixaData">
-        <button type="button" class="adicionarData" >DATA</button>
+        <div class="datasInicioeFim" hidden>
+            <label>Início <input type="datetime-local" class="dataInicio"></label>
+            <label>Fim <input type="datetime-local" class="dataFim"></label>
         </div>
 
-        <div class="caixaDescricao">
-        <button type="button" class="adicionarDescricao" >DESCRICAO</button>
+        <div class="descricaoNotes" hidden>
+           <label>Descricao<input type="text" class="inputDescricao"></label>
         </div>
 
-        <div class="caixaRemover">
-        <button type="button" class="removerTarefa" >REMOVE</button>
-        </div>
-
-        <input type="datetime-local" class="inputData" aria-label="Data e hora" hidden>
-        <input type="text" class="inputDescricao" placeholder="Descrição" hidden>
-
-        <small class="textoData" hidden></small>
-        <small class="textoDescricao" hidden></small>
     </li>
-
 </template>
-<script src="Scripts/ScriptCriarTarefa.js"></script>
 
-<script src="Scripts/ScriptBoxTable.js"></script>
+
+
+
+        <script src="Scripts/ScriptCriarTarefa.js"></script>
+
+        <script src="Scripts/ScriptBoxTable.js"></script>
 
 </body>
 </html>
