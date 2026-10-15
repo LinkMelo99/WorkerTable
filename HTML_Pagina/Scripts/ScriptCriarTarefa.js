@@ -16,20 +16,27 @@ const template = document.getElementById('modeloTarefa');
 //------------------------------------------------------//
 // Nome da box
 function nomeBox() {
-    const titulo = inputTitulo.value.trim();
-    if (titulo === '') return;
+    const titulo=inputTitulo.value.trim()
 
-    tituloBox.textContent = titulo;
+    if(titulo===''){inputTitulo.value=inputTitulo.defaultValue; return}
 
-    inputTitulo.value = '';
-    inputTitulo.focus();
+    inputTitulo.defaultValue=titulo
+    inputTitulo.value=titulo
 }
-inputTitulo.addEventListener('focus',()=>{
-    inputTitulo.select()
-})
-inputTitulo.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') nomeBox();
+
+inputTitulo.addEventListener('focus', () => {
+    inputTitulo.select();
 });
+
+inputTitulo.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        nomeBox;
+        inputTitulo.blur();
+    }
+});
+inputTitulo.addEventListener('blur', nomeBox);
+
 
 //------------------------------------------------------//
 // Criando tarefa
@@ -90,6 +97,11 @@ function criandoTarefa() {
         buttonNotes.setAttribute('aria-expanded', String(!areaNotes.hidden));
     });
 
+  //botao concluido
+  cloneTemplate.querySelector('.buttonConcluido').addEventListener('click',(e)=>{
+      e.target.closest('li').remove()
+  })
+
 
     //tudo adicionado no ul lista de tarefas
     lista.appendChild(cloneTemplate);
@@ -108,6 +120,30 @@ inputNomeTarefa.addEventListener('keydown', (e) => {
 });
 
 
+lista.addEventListener('dblclick', (e) => {
+    const titulo = e.target.closest('.textoTitulo')
+    if (!titulo) return
+
+    titulo.dataset.original = titulo.textContent
+    titulo.contentEditable = 'true'
+    titulo.focus()
+
+    const selecao = window.getSelection()
+    selecao.selectAllChildren(titulo)
+})
+lista.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.classList.contains('textoTitulo')) {
+        e.preventDefault()
+        e.target.blur()
+    }
+})
+lista.addEventListener('focusout', (e) => {
+    const titulo = e.target.closest('.textoTitulo')
+    if (!titulo) return
+
+    titulo.contentEditable = 'false'
+    titulo.textContent = titulo.textContent.trim() || titulo.dataset.original
+})
 
 
 //------------------------------------------------------//

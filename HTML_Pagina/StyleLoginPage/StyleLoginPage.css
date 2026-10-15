@@ -219,166 +219,291 @@ button[type="submit"]:hover {
     filter: brightness(1.15);
 }
 
-/* ---------- To-do ---------- */
-.todo {
+
+.boxTable {
+    --azul: #2f54b8;
+    --azul-escuro: #243f91;
+    --texto: #f4f7ff;
+    --texto-suave: rgba(244, 247, 255, 0.64);
+    --campo: rgba(255, 255, 255, 0.11);
+    --campo-hover: rgba(255, 255, 255, 0.17);
+    --linha: rgba(255, 255, 255, 0.14);
+    --destaque: #ffc857;
+    --destaque-texto: #3a2a00;
+    --perigo: #ff6b6b;
+
+    width: min(380px, 100%);
+    min-height: 360px;
+    max-height: min(640px, 90vh);   /* limite: passou disso, a lista rola */
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    min-height: 0;
-    color: var(--on-accent);
+    padding: 22px 20px 24px;
+    box-sizing: border-box;
+    border-radius: 22px;
+    background: var(--azul);
+    color: var(--texto);
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.18) inset,
+            0 2px 4px rgba(20, 35, 85, 0.20),
+            0 18px 40px -12px rgba(20, 35, 85, 0.55);
 }
 
-.textBox {
-    display: flex;
-    flex-direction: column;
-    gap: .75rem;
-}
+/* Garante que o atributo hidden funcione mesmo com display:flex/grid */
+.boxTable [hidden],
+#modeloTarefa { display: none !important; }
 
-.textWorksBox {
-    display: flex;
-    justify-content: center;
-    font-weight: 600;
-}
+.boxTable button,
+.boxTable input { font-family: inherit; }
 
-/* input + bolinha lado a lado */
-.listTarefa {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+/* ----- Título editável (input com cara de cabeçalho) ----- */
+.tituloDaBox { flex: none; margin-bottom: 18px; }
+.tituloBox   { display: block; }
 
-/* input vira só uma linha (sobrescreve o `input` global) */
-.listTarefa input {
-    flex: 1;
-    width: auto;
-    min-width: 0;
-    padding: 6px 2px;
+.inputDoTituloDaBox {
+    box-sizing: border-box;
+    width: calc(100% + 20px);
+    margin-left: -10px;               /* alinha o texto com o resto */
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 10px;
     background: transparent;
-    border: none;
-    border-bottom: 2px solid var(--on-accent);
-    border-radius: 0;
-    color: var(--on-accent);
-    box-shadow: none;
-    user-select: text;
-    cursor: text;
+    color: var(--texto);
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-align: center;
+    transition: background-color 0.15s ease;
 }
 
-.listTarefa input:focus {
-    border-bottom-color: #2ecc71;
-    box-shadow: none;
+.inputDoTituloDaBox:hover { background: rgba(255, 255, 255, 0.08); }
+
+.inputDoTituloDaBox:focus {
+    outline: 2px solid var(--destaque);
+    background: rgba(255, 255, 255, 0.12);
 }
 
-.listTarefa input::placeholder {
-    color: color-mix(in srgb, var(--on-accent) 65%, transparent);
-}
-
-.TituloTarefa{
+/* ----- Nova tarefa: campo + botão ----- */
+.TituloTarefa {
+    flex: none;
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 5px 5px 5px 14px;
+    border-radius: 14px;
+    background: var(--campo);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Box-Nome Tarefa */
-.tituloDaBox {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-}
+.TituloTarefa:hover        { background: var(--campo-hover); }
+.TituloTarefa:focus-within { box-shadow: 0 0 0 2px var(--destaque); }
 
-.inputDoTituloDaBox {
-    background: linear-gradient(90deg, #dbe6fd 0%, #dbe6fd 75%);
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    border: none;
-    border-bottom: 1px none;
-    border-radius: 0;
-    outline: none;
-    caret-color: #000;
-
-    text-align: center;
-    font-size: 20px;
-
-    animation: travel 10s ease-in-out infinite alternate;
-}
-
-.inputDoTituloDaBox::placeholder {
-    font-size: var(--font-ui);
-    color: rgba(0, 0, 0, 0.4);
-}
-.inputDoTituloDaBox:-webkit-autofill,
-.inputDoTituloDaBox:-webkit-autofill:focus {
-    -webkit-text-fill-color: transparent;
-    transition: background-color 9999s ease-in-out 0s;
-}
-
-.inputNomeTarefa{
-    background: transparent;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    border: none;
-    border-bottom: 1px solid #000;
-    border-radius: 0;
-    outline: none;
-}
-.inputNomeTarefa::placeholder{
-    font-size: var(--font-ui);
-}
-.inputNomeTarefa:focus{
-    border-bottom: 1px solid #000;
-}
-
-
-
-/* lista */
-#listaTarefas {
+.inputNomeTarefa {
     flex: 1;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    overflow-y: auto;
+    min-width: 0;
+    padding: 9px 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--texto);
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
-#listaTarefas li {
+.inputNomeTarefa::placeholder { color: var(--texto-suave); }
+
+
+.buttonAdicionar {
+    position: relative;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--destaque);
+    cursor: pointer;
+    transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.buttonAdicionar::before,
+.buttonAdicionar::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--destaque-texto);
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+}
+
+.buttonAdicionar::before { width: 14px;  height: 2.5px; }
+.buttonAdicionar::after  { width: 2.5px; height: 14px; }
+
+.buttonAdicionar:hover  { filter: brightness(1.06); }
+.buttonAdicionar:active { transform: scale(0.94); }
+
+/* ----- Lista e cada tarefa (<li>) ----- */
+.listaDeTarefas {
+    flex: 1 1 auto;
+    min-height: 0;                    /* sem isso o flex não deixa a lista encolher e rolar */
+    overflow-y: auto;
+    overflow-x: hidden;
+    list-style: none;
+    margin: 14px -18px 0 0;           /* empurra a barra pra dentro do padding da caixa */
+    padding: 0 12px 0 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 0;
+    flex-direction: column;
+    gap: 8px;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;            /* Firefox */
+    scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
 }
-#listaTarefas::-webkit-scrollbar{
-    width: 6px;
-}
-#listaTarefas::-webkit-scrollbar-track{
-    background: transparent;
-}
-#listaTarefas::-webkit-scrollbar-thumb{
-    background: rgba(255,255,255,.5);
+
+/* Chrome, Edge, Safari */
+.listaDeTarefas::-webkit-scrollbar { width: 6px; }
+.listaDeTarefas::-webkit-scrollbar-track { background: transparent; }
+.listaDeTarefas::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.30);
     border-radius: 999px;
 }
-#listaTarefas::-webkit-scrollbar-thumb:hover {
-    background:rgba(255,255,255,.5);}
+.listaDeTarefas::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
 
-
-.btn-remover {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    margin-left: 8px;
-    border: none;
-    border-radius: 50%;
-    background: transparent;
-    color: var(--on-accent);
-    cursor: pointer;
-    transition: background .2s;
+.listaDeTarefas li {
+    flex: none;                       /* tarefa nunca é esmagada */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px 10px 14px;
+    border-radius: 14px;
+    background: var(--azul-escuro);
 }
 
-.btn-remover:hover {
-    background: #e74c3c;
+.textoTopo {
+    display: flex;
+    flex-wrap: wrap;                  /* em telas estreitas, as ações descem */
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 10px;
+}
+
+.textoTitulo {
+    flex: 1 1 110px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ----- Ações da tarefa ----- */
+.acoes {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.buttonParticipantes,
+.buttonNotes,
+.buttonData,
+.buttonRemover,
+.buttonConcluido
+{
+    height: 28px;
+    min-width: 28px;
+    padding: 0 9px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--campo);
+    color: var(--texto);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.buttonData,
+.buttonRemover { padding: 0; font-size: 0.85rem; }
+
+.buttonParticipantes:hover,
+.buttonNotes:hover,
+.buttonData:hover { background: var(--campo-hover); }
+
+
+.buttonParticipantes[aria-expanded="true"],
+.buttonNotes[aria-expanded="true"],
+.buttonData[aria-expanded="true"] {
+    background: var(--destaque);
+    color: var(--destaque-texto);
+}
+
+.buttonRemover:hover {
+    background: var(--perigo);
+    color: #fff;
+}
+
+.buttonConcluido:hover{
+    background: forestgreen;
+}
+
+/* ----- Painéis: datas e descrição ----- */
+.datasInicioeFim,
+.descricaoNotes {
+    padding-top: 10px;
+    border-top: 1px solid var(--linha);
+}
+
+.datasInicioeFim {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+    gap: 8px;
+}
+
+.datasInicioeFim label,
+.descricaoNotes label {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--texto-suave);
+}
+
+.dataInicio,
+.dataFim,
+.inputDescricao {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;                     /* datetime-local tem largura mínima própria */
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--campo);
+    color: var(--texto);
+    color-scheme: dark;               /* ícone do calendário claro */
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.dataInicio:hover,
+.dataFim:hover,
+.inputDescricao:hover { background: var(--campo-hover); }
+
+/* ----- Foco visível pelo teclado ----- */
+.boxTable button:focus-visible,
+.dataInicio:focus-visible,
+.dataFim:focus-visible,
+.inputDescricao:focus-visible {
+    outline: 2px solid var(--destaque);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .boxTable * { transition: none !important; }
 }
 
 
