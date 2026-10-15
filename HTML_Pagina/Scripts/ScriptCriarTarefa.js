@@ -1,176 +1,188 @@
-const box = document.getElementById('boxTable');
+
+const nomeTarefa = document.getElementById('nomeTarefa');
+const modeloTarefa = document.getElementById('modeloTarefa');
 const lista = document.querySelector('.listaDeTarefas');
-
-// Título da box
-const inputTitulo = document.getElementById('tituloBox');
-const tituloBox = document.querySelector('.tituloBox');
-const buttonTituloTarefa = document.querySelector('.buttonTituloTarefa');
-
-// Nome da tarefa
-const inputNomeTarefa = document.getElementById('nomeTarefa');
 const buttonAddTarefa = document.querySelector('.buttonAdicionar');
 
-// Template
-const template = document.getElementById('modeloTarefa');
+// Cria uma tarefa e coordena suas configurações
+function criarTarefa() {
+    const titulo = nomeTarefa.value.trim();
 
-//------------------------------------------------------//
-// Nome da box
-function nomeBox() {
-    const titulo=inputTitulo.value.trim()
+    if (titulo === '') return;
 
-    if(titulo===''){inputTitulo.value=inputTitulo.defaultValue; return}
+    const tarefa = modeloTarefa.content.cloneNode(true);
+    const li = tarefa.querySelector('li');
 
-    inputTitulo.defaultValue=titulo
-    inputTitulo.value=titulo
+    const elementos = obterElementosTarefa(li);
+
+    configurarTitulo(elementos, titulo);
+    configurarRemocao(elementos);
+    configurarConclusao(elementos);
+    configurarNotes(elementos);
+    configurarDatas(elementos);
+
+    adicionarTarefaNaLista(tarefa);
+
+    nomeTarefa.value = '';
 }
 
-inputTitulo.addEventListener('focus', () => {
-    inputTitulo.select();
-});
+// Centraliza os seletores dos elementos da tarefa
+function obterElementosTarefa(li) {
+    return {
+        li,
+        titulo: li.querySelector('.textoTitulo'),
+        botaoRemover: li.querySelector('.buttonRemover'),
+        botaoConcluido: li.querySelector('.buttonConcluido'),
 
-inputTitulo.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        nomeBox;
-        inputTitulo.blur();
-    }
-});
-inputTitulo.addEventListener('blur', nomeBox);
+        botaoNotes: li.querySelector('.buttonNotes'),
+        areaNotes: li.querySelector('.descricaoNotes'),
+        inputNotes: li.querySelector('.inputDescricao'),
+        resumoNotes: li.querySelector('.descricaoHidden'),
 
+        botaoData: li.querySelector('.buttonData'),
+        areaDatas: li.querySelector('.datasInicioeFim'),
+        dataInicio: li.querySelector('.dataInicio'),
+        dataFim: li.querySelector('.dataFim'),
+        resumoDatas: li.querySelector('.textoHidden')
+    };
+}
 
-//------------------------------------------------------//
-// Criando tarefa
-function criandoTarefa() {
-    const nome = inputNomeTarefa.value.trim();
-    if (nome === '') return;
+// Define o título da tarefa
+function configurarTitulo(elementos, titulo) {
+    elementos.titulo.textContent = titulo;
+}
 
-    const cloneTemplate = template.content.cloneNode(true);
-
-    // nome da tarefa
-    cloneTemplate.querySelector('.textoTitulo').textContent = nome;
-
-    // remover
-    cloneTemplate.querySelector('.buttonRemover').addEventListener('click', (e) => {
-        e.target.closest('li').remove();
+// Remove a tarefa da lista
+function configurarRemocao(elementos) {
+    elementos.botaoRemover.addEventListener('click', () => {
+        elementos.li.remove();
     });
+}
 
-    // mostrar/esconder datas
-    cloneTemplate.querySelector('.buttonData').addEventListener('click', (e) => {
-        const botao = e.target;
-        const datas = botao.closest('li').querySelector('.datasInicioeFim');
+// Alterna o estado de conclusão
+function configurarConclusao(elementos) {
+    const botao = elementos.botaoConcluido;
 
-        datas.hidden = !datas.hidden;
-        botao.setAttribute('aria-expanded', String(!datas.hidden));
+    botao.setAttribute('aria-pressed', 'false');
+
+    botao.addEventListener('click', () => {
+        const concluida = botao.getAttribute('aria-pressed') !== 'true';
+
+        botao.setAttribute('aria-pressed', String(concluida));
+        elementos.li.classList.toggle('tarefaConcluida', concluida);
     });
+}
 
-    // inputs das datas
-    const inicio = cloneTemplate.querySelector('.dataInicio');
-    const fim = cloneTemplate.querySelector('.dataFim');
-    inicio.addEventListener('change', (e) => descricaoData(e.target.closest('li')));
-    fim.addEventListener('change', (e) => descricaoData(e.target.closest('li')));
+// Configura a área de descrição da tarefa
+function configurarNotes(elementos) {
+    const { botaoNotes, areaNotes, inputNotes, resumoNotes } = elementos;
 
+    botaoNotes.setAttribute('aria-expanded', 'false');
 
-    // Descrição das tarefas
-    const inputNotes = cloneTemplate.querySelector('.inputDescricao');
-    const descricaoTexto = cloneTemplate.querySelector('.descricaoHidden');
-    const areaNotes = cloneTemplate.querySelector('.descricaoNotes');
-    const buttonNotes = cloneTemplate.querySelector('.buttonNotes');
+    botaoNotes.addEventListener('click', () => {
+        alternarNotes(areaNotes, botaoNotes, inputNotes);
+    });
 
     inputNotes.addEventListener('input', () => {
-        const text = inputNotes.value.trim();
-
-        descricaoTexto.textContent = text;
-        descricaoTexto.hidden = text === '';
+        atualizarResumoNotes(inputNotes, resumoNotes);
     });
 
-  // Enter fecha o campo de notas
-    inputNotes.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            areaNotes.hidden = true;
-            buttonNotes.setAttribute('aria-expanded', 'false');
+    inputNotes.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Enter' && !evento.shiftKey) {
+            evento.preventDefault();
+            fecharNotes(areaNotes, botaoNotes);
         }
     });
+}
 
-  // Botão Notes mostra/esconde o campo
-    buttonNotes.addEventListener('click', () => {
-        areaNotes.hidden = !areaNotes.hidden;
-        buttonNotes.setAttribute('aria-expanded', String(!areaNotes.hidden));
+// Abre ou fecha a descrição
+function alternarNotes(area, botao, input) {
+    const vaiAbrir = area.hidden;
+
+    area.hidden = !vaiAbrir;
+    botao.setAttribute('aria-expanded', String(vaiAbrir));
+
+    if (vaiAbrir) {
+        input.focus();
+    }
+}
+
+// Fecha a descrição e devolve o foco ao botão
+function fecharNotes(area, botao) {
+    area.hidden = true;
+    botao.setAttribute('aria-expanded', 'false');
+    botao.focus();
+}
+
+
+// Atualiza o resumo da descrição
+function atualizarResumoNotes(input, resumo) {
+    const texto = input.value.trim();
+
+    resumo.textContent = texto;
+    resumo.hidden = texto === '';
+}
+
+// Configura os campos de data
+function configurarDatas(elementos) {
+    const { dataInicio, dataFim, botaoData, areaDatas } = elementos;
+
+    if (typeof flatpickr !== 'function') return;
+
+    flatpickr(dataInicio, {
+        dateFormat: 'd/m/Y',
+        allowInput: true,
+        onChange: () => atualizarResumoDatas(elementos)
     });
 
-  //botao concluido
-  cloneTemplate.querySelector('.buttonConcluido').addEventListener('click',(e)=>{
-      e.target.closest('li').remove()
-  })
+    flatpickr(dataFim, {
+        dateFormat: 'd/m/Y',
+        allowInput: true,
+        onChange: () => atualizarResumoDatas(elementos)
+    });
 
-
-    //tudo adicionado no ul lista de tarefas
-    lista.appendChild(cloneTemplate);
-
-    inputNomeTarefa.value = '';
-    inputNomeTarefa.focus();
+    botaoData.addEventListener('click', () => {
+        alternarDatas(areaDatas, botaoData);
+    });
 }
-buttonAddTarefa.addEventListener('click', criandoTarefa);
 
-inputNomeTarefa.addEventListener('focus',()=>{
+// Abre ou fecha os campos de data
+function alternarDatas(area, botao) {
+    const vaiAbrir = area.hidden;
 
-    inputNomeTarefa.select()
-})
-inputNomeTarefa.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') criandoTarefa();
+    area.hidden = !vaiAbrir;
+    botao.setAttribute('aria-expanded', String(vaiAbrir));
+}
+
+// Atualiza o resumo das datas escolhidas
+function atualizarResumoDatas(elementos) {
+    const { dataInicio, dataFim, resumoDatas } = elementos;
+
+    const inicio = dataInicio.value.trim();
+    const fim = dataFim.value.trim();
+
+    if (!inicio && !fim) {
+        resumoDatas.textContent = '';
+        resumoDatas.hidden = true;
+        return;
+    }
+
+    resumoDatas.textContent = `Início: ${inicio || 'Não definido'} | Fim: ${fim || 'Não definido'}`;
+    resumoDatas.hidden = false;
+}
+
+// Adiciona a tarefa ao final da lista
+function adicionarTarefaNaLista(tarefa) {
+    lista.appendChild(tarefa);
+}
+
+// Registra o evento de adicionar tarefa
+buttonAddTarefa.addEventListener('click', criarTarefa);
+
+// Criar a tarefa com Enter
+nomeTarefa.addEventListener('keydown', (evento) => {
+    if (evento.key === 'Enter') {
+        evento.preventDefault();
+        criarTarefa();
+    }
 });
-
-
-lista.addEventListener('dblclick', (e) => {
-    const titulo = e.target.closest('.textoTitulo')
-    if (!titulo) return
-
-    titulo.dataset.original = titulo.textContent
-    titulo.contentEditable = 'true'
-    titulo.focus()
-
-    const selecao = window.getSelection()
-    selecao.selectAllChildren(titulo)
-})
-lista.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.classList.contains('textoTitulo')) {
-        e.preventDefault()
-        e.target.blur()
-    }
-})
-lista.addEventListener('focusout', (e) => {
-    const titulo = e.target.closest('.textoTitulo')
-    if (!titulo) return
-
-    titulo.contentEditable = 'false'
-    titulo.textContent = titulo.textContent.trim() || titulo.dataset.original
-})
-
-
-//------------------------------------------------------//
-// Datas
-function formataData(data) {
-    return new Date(data).toLocaleString('pt-BR', {
-        dateStyle: 'short',
-        timeStyle: 'short'
-    });
-}
-
-function descricaoData(li) {
-    const dataInicio = li.querySelector('.dataInicio');
-    const dataFim = li.querySelector('.dataFim');
-    const textoDataLabel = li.querySelector('.textoHidden');
-
-    dataFim.min = dataInicio.value;
-
-    if (dataInicio.value && dataFim.value && dataFim.value < dataInicio.value) {
-        dataFim.value = '';
-    }
-
-    const textoData = [];
-    if (dataInicio.value) textoData.push('Início: ' + formataData(dataInicio.value));
-    if (dataFim.value) textoData.push('Fim: ' + formataData(dataFim.value));
-
-    textoDataLabel.textContent = textoData.join(' | ');
-    textoDataLabel.hidden = textoData.length === 0;
-}
-
