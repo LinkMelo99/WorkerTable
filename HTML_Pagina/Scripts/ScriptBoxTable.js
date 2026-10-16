@@ -2,6 +2,8 @@ const getBox = document.getElementById("boxTable");
 const ladoDir = document.getElementById("ladoDir");
 const ladoEsq = document.querySelector(".ladoEsq");
 const seta = document.getElementById("setaVoltar");
+const btnAdd = document.getElementById("btnAdd");
+
 
 let arrastando = false;
 let moveu = false;
@@ -21,6 +23,14 @@ function limitar(left, top) {
         top:  Math.max(0, Math.min(top, limiteTop))
     };
 }
+
+ladoDir.addEventListener("click", (e) => {
+    if (e.target.closest("#getBox, #setaVoltar, #btnAdd")) return;
+    ladoEsq.classList.add("escondido");
+    seta.classList.add("visivel");
+    btnAdd.classList.add("visivel");
+    acompanharTransicao();
+});
 
 function posicionarNoPonteiro() {
     const dirRect = ladoDir.getBoundingClientRect();
@@ -81,16 +91,17 @@ getBox.addEventListener("pointerdown", (event) => {
     requestAnimationFrame(loopArraste);
 });
 
-getBox.addEventListener("pointermove", (event) => {
+  getBox.addEventListener("pointermove", (event) => {
     if (!arrastando) return;
 
     ultimoX = event.clientX;
     ultimoY = event.clientY;
 
-    if (!moveu && Math.hypot(ultimoX - inicioX, ultimoY - inicioY) > 5) {
+    if (!moveu && Math.hypot(ultimoX - inicioX, ultimoY - inicioY) > 5  ) {
         moveu = true;
         ladoEsq.classList.add("escondido");
         seta.classList.remove("visivel");
+        btnAdd.classList.remove("visivel")
     }
 
     if (moveu) posicionarNoPonteiro();
@@ -105,6 +116,7 @@ function soltar(event) {
 
     if (ladoEsq.classList.contains("escondido")) {
         seta.classList.add("visivel");
+        btnAdd.classList.add("visivel");
     }
 }
 
@@ -114,5 +126,6 @@ getBox.addEventListener("pointercancel", soltar);
 seta.addEventListener("click", () => {
     ladoEsq.classList.remove("escondido");
     seta.classList.remove("visivel");
+    btnAdd.classList.remove("visivel");
     acompanharTransicao();
 });

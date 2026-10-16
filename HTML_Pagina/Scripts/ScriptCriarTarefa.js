@@ -3,6 +3,9 @@ const nomeTarefa = document.getElementById('nomeTarefa');
 const modeloTarefa = document.getElementById('modeloTarefa');
 const lista = document.querySelector('.listaDeTarefas');
 const buttonAddTarefa = document.querySelector('.buttonAdicionar');
+const createNewBox= document.getElementById('createBox');
+
+
 
 // Cria uma tarefa e coordena suas configurações
 function criarTarefa() {
