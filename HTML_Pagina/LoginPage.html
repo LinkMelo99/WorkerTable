@@ -77,35 +77,37 @@
 
 <div class="ladoDir" id="ladoDir">
     <button type="button" class="setaVoltar" id="setaVoltar" aria-label="Mostrar painel">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             aria-hidden="true">
             <path d="M9 6l6 6-6 6"/>
         </svg>
     </button>
 
     <button type="button" class="btnAddBox" id="btnAdd" aria-label="Adicionar box">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="5" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="5"
+             aria-hidden="true">
             <path d="M12 5v14M5 12h14"/>
         </svg>
     </button>
 
-        <div class="boxTable" id="boxTable">
+    <div class="boxTable" id="boxTable">
 
-            <!--Titulo da box-->
-            <div class="tituloDaBox">
-                <label class="tituloBox" for="tituloBox"> <input type="text" id="tituloBox" value="WorkTable"
-                                                                 class="inputDoTituloDaBox"></label>
-            </div>
-
-            <div class="TituloTarefa">
-                <label class="nomeTarefa" for="nomeTarefa"></label>
-                <input type="text" id="nomeTarefa" value="Tarefa 1" class="inputNomeTarefa" required>
-
-                <button type="click" class="buttonAdicionar"></button>
-            </div>
-
-            <ul class="listaDeTarefas"></ul>
-
+        <!--Titulo da box-->
+        <div class="tituloDaBox">
+            <label class="tituloBox" for="tituloBox"> <input type="text" id="tituloBox" value="WorkTable"
+                                                             class="inputDoTituloDaBox"></label>
         </div>
+
+        <div class="TituloTarefa">
+            <label class="nomeTarefa" for="nomeTarefa"></label>
+            <input type="text" id="nomeTarefa" value="Tarefa 1" class="inputNomeTarefa" required>
+
+            <button type="click" class="buttonAdicionar"></button>
+        </div>
+
+        <ul class="listaDeTarefas"></ul>
+
+    </div>
 
 </div>
 
@@ -158,32 +160,26 @@
     </li>
 </template>
 
+<template id="createBox">
+    <div class="boxTable">
+        <div class="tituloNovaBox">
+            <label class="boxNome">
+                <input type="text" value="WorkTable" class="inputDoTituloNovaBox">
+            </label>
+        </div>
 
-<template class="createBox" id="createBox">
-
-    <div class="tituloDaBox">
-        <label class="tituloBox" for="tituloBox"> <input type="text" id="tituloBoxNova" value="WorkTable"
-                                                         class="inputDoTituloDaBox"></label>
-    </div>
-
-    <div class="TituloTarefa">
-        <label class="nomeTarefa" for="nomeTarefa"></label>
-        <input type="text" id="nomeTarefaNova" value="Tarefa 1" class="inputNomeTarefa" required>
-
-        <button type="click" class="buttonAdicionar"></button>
-    </div>
-
-    <ul class="listaDeTarefas"></ul>
-
-    </div>
+        <div class="TituloNovaBoxTarefa">
+            <label class="nomeNovaBoxTarefa"></label>
+            <input type="text" value="Tarefa 1" class="inputNomeNovaBoxTarefa" required>
+            <button type="button" class="buttonCreateBox"></button>
+        </div>
 
 </template>
 
+        <script src="Scripts/ScriptCriarTarefa.js"></script>
 
-<script src="Scripts/ScriptCriarTarefa.js"></script>
-
-<script src="Scripts/ScriptBoxTable.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
+        <script src="Scripts/ScriptBoxTable.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
 
 </body>
 </html>

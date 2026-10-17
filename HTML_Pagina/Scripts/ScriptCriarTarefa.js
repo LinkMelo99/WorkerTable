@@ -3,7 +3,7 @@ const nomeTarefa = document.getElementById('nomeTarefa');
 const modeloTarefa = document.getElementById('modeloTarefa');
 const lista = document.querySelector('.listaDeTarefas');
 const buttonAddTarefa = document.querySelector('.buttonAdicionar');
-const createNewBox= document.getElementById('createBox');
+
 
 
 
@@ -179,6 +179,10 @@ function adicionarTarefaNaLista(tarefa) {
     lista.appendChild(tarefa);
 }
 
+/*--------------------Criar nova Box---------------------------*/
+
+
+
 // Registra o evento de adicionar tarefa
 buttonAddTarefa.addEventListener('click', criarTarefa);
 
@@ -189,3 +193,6 @@ nomeTarefa.addEventListener('keydown', (evento) => {
         criarTarefa();
     }
 });
+
+
+
