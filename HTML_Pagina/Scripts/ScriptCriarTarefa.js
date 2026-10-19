@@ -1,16 +1,15 @@
 
 const nomeTarefa = document.getElementById('nomeTarefa');
 const modeloTarefa = document.getElementById('modeloTarefa');
-const lista = document.querySelector('.listaDeTarefas');
+const listaTarefa = document.querySelector('.listaDeTarefas');
 const buttonAddTarefa = document.querySelector('.buttonAdicionar');
 
 
 
 
 // Cria uma tarefa e coordena suas configurações
-function criarTarefa() {
-    const titulo = nomeTarefa.value.trim();
-
+function criarTarefa(titulo, lista) {
+    titulo = titulo.trim();
     if (titulo === '') return;
 
     const tarefa = modeloTarefa.content.cloneNode(true);
@@ -24,9 +23,7 @@ function criarTarefa() {
     configurarNotes(elementos);
     configurarDatas(elementos);
 
-    adicionarTarefaNaLista(tarefa);
-
-    nomeTarefa.value = '';
+    adicionarTarefaNaLista(tarefa, lista);
 }
 
 // Centraliza os seletores dos elementos da tarefa
@@ -175,24 +172,25 @@ function atualizarResumoDatas(elementos) {
 }
 
 // Adiciona a tarefa ao final da lista
-function adicionarTarefaNaLista(tarefa) {
-    lista.appendChild(tarefa);
+function adicionarTarefaNaLista(tarefa,lista) {
+    lista.appendChild(tarefa,lista);
 }
 
 /*--------------------Criar nova Box---------------------------*/
 
 
+function adicionarNaBoxOriginal() {
+    criarTarefa(nomeTarefa.value, listaOriginal);
+    nomeTarefa.value = '';
+}
 
-// Registra o evento de adicionar tarefa
-buttonAddTarefa.addEventListener('click', criarTarefa);
+buttonAddTarefa.addEventListener('click', adicionarNaBoxOriginal);
 
-// Criar a tarefa com Enter
 nomeTarefa.addEventListener('keydown', (evento) => {
     if (evento.key === 'Enter') {
         evento.preventDefault();
-        criarTarefa();
+        adicionarNaBoxOriginal();
     }
 });
-
 
 
