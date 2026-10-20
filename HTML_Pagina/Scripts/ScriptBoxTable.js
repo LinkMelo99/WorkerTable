@@ -3,6 +3,7 @@ const ladoDir = document.getElementById("ladoDir");
 const ladoEsq = document.querySelector(".ladoEsq");
 const seta = document.getElementById("setaVoltar");
 const btnAdd = document.getElementById("btnAdd");
+const btnRemoverBox = document.querySelector('.buttonRemoverBox')
 
 
 let arrastando = false;
@@ -102,6 +103,7 @@ getBox.addEventListener("pointerdown", (event) => {
         ladoEsq.classList.add("escondido");
         seta.classList.remove("visivel");
         btnAdd.classList.remove("visivel")
+        btnRemoverBox.classList.add("visivel")
     }
 
     if (moveu) posicionarNoPonteiro();
@@ -120,12 +122,21 @@ function soltar(event) {
     }
 }
 
+function buttonRemoverBox(){
+    btnRemoverBox.addEventListener('click',()=>{
+        getBox.remove()
+    })
+}
+
 getBox.addEventListener("pointerup", soltar);
 getBox.addEventListener("pointercancel", soltar);
+btnRemoverBox.addEventListener('click',()=>{getBox.remove()})
 
 seta.addEventListener("click", () => {
     ladoEsq.classList.remove("escondido");
     seta.classList.remove("visivel");
     btnAdd.classList.remove("visivel");
+    btnRemoverBox.classList.remove("visivel")
+
     acompanharTransicao();
 });

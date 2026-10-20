@@ -29,16 +29,26 @@ function criarBox() {
             if (inputTitulo.value.trim() === '') {
                 inputTitulo.value = 'WorkTable';
             }
-
             inputTitulo.blur();
         }
     });
+
+    inputTitulo.addEventListener('click',()=>{
+        inputTitulo.select();
+    })
 
     // Inserir a box na página
     ladoDirNewBox.appendChild(clone);
 
     // Configurar o arrasto da box criada
     configurarArrasto(box);
-}
 
+}
+ladoDirNewBox.addEventListener('click',(event)=>{
+
+    if(event.target.classList.contains('buttonRemoverNewBox')){
+        const item=  event.target.closest('.newBoxTable')
+        if(item){ item.remove()}
+    }
+})
 buttonAddBox.addEventListener('click', criarBox);

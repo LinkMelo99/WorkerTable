@@ -181,6 +181,33 @@ body {
     font-family: inherit;
 }
 
+.buttonRemoverBox{
+    background: #ffffff;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    top: 36%;
+    margin: 15px auto 0 auto;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease-in-out;
+
+    flex-shrink: 0;
+}
+
+.buttonRemoverBox:hover{
+    background-color: #ff6b6b ;
+}
+
+.buttonRemoverBox svg{
+    pointer-events: none;
+}
 
 /*-------------Novas Box-------------------*/
 
@@ -430,7 +457,7 @@ button[type="submit"]:hover {
     width: auto;
     padding: 9px 0;
     border: 0;
-    outline: 0;
+    outline: none;
     border-radius: 0;
     background: transparent;
     color: black;
@@ -445,8 +472,8 @@ button[type="submit"]:hover {
 
 .inputNomeTarefa:focus,
 .inputNomeTarefa:focus-visible {
-    outline: none;
-    border: none;
+    outline: none !important;
+    border: none !important;
     background: transparent;
     box-shadow: 0 2px 0 rgba(0, 0, 0, .7);
 }
@@ -460,7 +487,7 @@ button[type="submit"]:hover {
     padding: 0;
     border: 0;
     border-radius: 10px;
-    background: var(--destaque);
+    background:transparent;
     cursor: pointer;
     transition: transform .12s ease, filter .12s ease;
 }
@@ -474,6 +501,7 @@ button[type="submit"]:hover {
     background: var(--destaque-texto);
     border-radius: 2px;
     transform: translate(-50%, -50%);
+    transition: background 0.2s ease;
 }
 
 .buttonAdicionar::before {
@@ -488,6 +516,7 @@ button[type="submit"]:hover {
 
 .buttonAdicionar:hover {
     filter: brightness(1.06);
+    --destaque-texto: #88E788;
 }
 
 .buttonAdicionar:active {

@@ -35,7 +35,32 @@
     color: black;
     box-shadow: 0 10px 20px rgba(0, 0, 0, .15);
 }
+.buttonRemoverNewBox{
+    background: #ffffff;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    top: 36%;
+    margin: 15px auto 0 auto;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease-in-out;
 
+    flex-shrink: 0;
+}
+
+.buttonRemoverNewBox:hover{
+    background-color: #ff6b6b ;
+}
+.buttonRemoverNewBox svg{
+    pointer-events: none;
+}
 /* ---------- Campo para criar tarefa ---------- */
 
 .newBoxTable .TituloNovaBoxTarefa {

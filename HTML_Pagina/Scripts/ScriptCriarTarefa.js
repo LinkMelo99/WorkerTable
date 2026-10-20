@@ -180,7 +180,7 @@ function adicionarTarefaNaLista(tarefa,lista) {
 
 
 function adicionarNaBoxOriginal() {
-    criarTarefa(nomeTarefa.value, listaOriginal);
+    criarTarefa(nomeTarefa.value, listaTarefa);
     nomeTarefa.value = '';
 }
 
