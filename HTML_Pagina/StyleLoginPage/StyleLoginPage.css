@@ -184,7 +184,7 @@ body {
 
 /*-------------Novas Box-------------------*/
 
-.createBox {
+.newBoxTable {
     --azul: #2f54b8;
     --azul-escuro: #243f91;
     --texto: #fff;
@@ -241,7 +241,7 @@ body {
     }
 }
 
-.createBox:active {
+.newBoxTable:active {
     cursor: grabbing;
     box-shadow: 4px 4px 10px rgba(30, 50, 100, .3),
     -4px -4px 10px rgba(180, 205, 255, .25);
@@ -257,8 +257,8 @@ body {
     display: none !important;
 }
 
-.createBox button,
-.createBox input {
+.newBoxTable button,
+.newBoxTable input {
     font-family: inherit;
 }
 
