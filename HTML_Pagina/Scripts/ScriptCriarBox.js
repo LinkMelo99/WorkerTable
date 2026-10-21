@@ -13,11 +13,21 @@ function criarBox() {
 
     const lista = clone.querySelector('.newListaDeTarefasTemplate');
 
+    setColor(box)
+
     function adicionarTarefa() {
         criarTarefa(inputTarefa.value, lista);
         inputTarefa.value = '';
     }
 
+    function setColor(box){
+
+        const r = Math.floor(Math.random() * 76) + 180;
+        const g = Math.floor(Math.random() * 76) + 180;
+        const b = Math.floor(Math.random() * 76) + 180;
+
+        box.style.backgroundColor=`rgb(${r},${g},${b})`
+    }
     botaoAdd.addEventListener('click', adicionarTarefa);
 
     inputTarefa.addEventListener('keydown', (e) => {

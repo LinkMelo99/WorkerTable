@@ -19,6 +19,7 @@ function criarTarefa(titulo, lista) {
 
     configurarTitulo(elementos, titulo);
     configurarRemocao(elementos);
+    configurarNomeTarefa(elementos)
     configurarConclusao(elementos);
     configurarNotes(elementos);
     configurarDatas(elementos);
@@ -171,13 +172,38 @@ function atualizarResumoDatas(elementos) {
     resumoDatas.hidden = false;
 }
 
+
+function editarNomeTarefa(li){
+    const liNomeTarefa = li.querySelector('.textoTitulo')
+
+    const inputNovoNome = document.createElement('input')
+    inputNovoNome.value= liNomeTarefa.textContent
+
+    liNomeTarefa.replaceWith( inputNovoNome)
+    inputNovoNome.select()
+
+    inputNovoNome.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter'){
+            const novoNome= inputNovoNome.value.trim()
+            if(novoNome) liNomeTarefa.textContent=novoNome
+            inputNovoNome.replaceWith(liNomeTarefa)
+        }
+    })
+
+}
+
+function configurarNomeTarefa(elemento){
+    elemento.titulo.addEventListener('dblclick',()=>{
+        editarNomeTarefa(elemento.li)
+    })
+}
+
 // Adiciona a tarefa ao final da lista
 function adicionarTarefaNaLista(tarefa,lista) {
-    lista.appendChild(tarefa,lista);
+    lista.appendChild(tarefa);
 }
 
 /*--------------------Criar nova Box---------------------------*/
-
 
 function adicionarNaBoxOriginal() {
     criarTarefa(nomeTarefa.value, listaTarefa);
@@ -192,5 +218,4 @@ nomeTarefa.addEventListener('keydown', (evento) => {
         adicionarNaBoxOriginal();
     }
 });
-
 
