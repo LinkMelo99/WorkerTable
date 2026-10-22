@@ -31,56 +31,73 @@
 }
 
 
-/*-------------------Texto Boas-Vindas--------------------*/
-#texto-digitado {
-    max-width: 600px;
-    padding: 24px;
-    font: 1.0rem Inconsolata, monospace;
+/*-------------------Texto Boas-Vindas----------------*/
+
+:root {
+    --cor-destaque: #6c5ce7;
+    --cor-destaque-2: #00b4d8;
+    --cor-titulo: #1b1f3b;
+    --cor-texto: #4a4f6a;
 }
 
-.texto-digitado h1 {
+.descricaoPagina {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+
+/* Título com gradiente */
+.descricaoPagina h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    min-height: 1.15em;
+    margin-bottom: 1.25rem;
+    background: white;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: flex-grow .6s ease, padding .6s ease;
+}
+
+/* Parágrafos */
+.descricaoPagina p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    min-height: 1.7em;
+    margin-bottom: 1rem;
+    color: var(--cor-texto);
+}
+
+/* Frase final em destaque */
+#paragrafo3 {
+    margin-top: 1.75rem;
     font-size: 1.5rem;
-    margin-bottom: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cor-titulo);
 }
 
-.texto-digitado p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 14px;
-    color: whitesmoke;
-}
 
-.texto-digitado {
-    color: antiquewhite;
-    font-weight: bold;
-}
-
-.texto-digitado {
-    font-weight: bold;
-}
 
 .cursor {
     display: inline-block;
     width: 2px;
     height: 1em;
-    background:white;
+    background: white;
     vertical-align: text-bottom;
-    animation:girar 1s linear infinite
-    ,piscar 1s steps(2, start) infinite;
+    animation: girar 1s linear infinite;
+    transition: opacity 0.5s;
+}
 
+.cursor.sair {
+    opacity: 0;
 }
-@keyframes piscar {
-    to {
-        visibility: hidden;
-    }
-}
+
 @keyframes girar {
-    from{
-        transform: rotate(0deg);
-    }
-    to{
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
 /*-------------------FORM LOGIN--------------------*/
