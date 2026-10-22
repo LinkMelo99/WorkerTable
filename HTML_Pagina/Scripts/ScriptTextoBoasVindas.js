@@ -1,9 +1,9 @@
 
-const time = 30;
+const time = 45;
 const textoH1 ='Bem-vindo ao WorkTable'
 
-const textoP1 ='Organize suas ideias, crie caixas de tarefas e acompanhe seus projetos em um só lugar'
-const textoP2='Defina prioridades, estabeleça prazos e delegue tarefas à sua equipe para trabalhar de forma mais eficiente'
+const textoP1 ='Organize suas ideias, crie caixas de tarefas e acompanhe seus projetos em um só lugar.'
+const textoP2='Defina prioridades, estabeleça prazos e delegue tarefas à sua equipe para trabalhar de forma mais eficiente.'
 const textoP3='Organize. Colabore. Realize.'
 const h1= document.getElementById('texto-digitado')
 const p1 = document.getElementById('paragrafo1')

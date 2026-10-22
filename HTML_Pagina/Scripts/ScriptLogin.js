@@ -1,8 +1,7 @@
 
-const loginHidden = document.querySelector('.login')
+const janelaLogin = document.querySelector('.janelalOGIN')
+const btnLogin = document.querySelector('.buttonLogin')
 
-
-loginHidden.addEventListener('click',()=>{
-    loginHidden.hidden=!loginHidden.hidden
-
+btnLogin.addEventListener('click',()=>{
+    janelaLogin.showModal()
 })

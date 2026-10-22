@@ -17,7 +17,7 @@
     letter-spacing: 0.1em;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top:50px;
+    margin-top: 50px;
 }
 
 .btnLogin:hover {
@@ -30,78 +30,75 @@
     transform: scale(0.98);
 }
 
+/*-------------------Janela Login----------------*/
 
-/*-------------------Texto Boas-Vindas----------------*/
 
-:root {
-    --cor-destaque: #6c5ce7;
-    --cor-destaque-2: #00b4d8;
-    --cor-titulo: #1b1f3b;
-    --cor-texto: #4a4f6a;
-}
+.janelalOGIN {
+    box-sizing: border-box;
+    width: min(420px, calc(100% - 32px));
+    max-width: calc(100% - 32px);
+    padding: 32px;
 
-.descricaoPagina {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-    text-align: center;
-}
+    border-radius: 24px;
+    border-color: transparent;
 
-/* Título com gradiente */
-.descricaoPagina h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1.15;
-    min-height: 1.15em;
-    margin-bottom: 1.25rem;
-    background: white;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: flex-grow .6s ease, padding .6s ease;
-}
+    background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.97),
+            rgba(231, 239, 255, 0.96)
+    );
 
-/* Parágrafos */
-.descricaoPagina p {
-    font-size: 1.15rem;
-    line-height: 1.7;
-    min-height: 1.7em;
-    margin-bottom: 1rem;
-    color: var(--cor-texto);
-}
+    color: #1f2d49;
 
-/* Frase final em destaque */
-#paragrafo3 {
-    margin-top: 1.75rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--cor-titulo);
+    box-shadow: 0 24px 70px rgba(20, 47, 100, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+    backdrop-filter: blur(18px);
 }
 
 
-
-.cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: white;
-    vertical-align: text-bottom;
-    animation: girar 1s linear infinite;
-    transition: opacity 0.5s;
+.janelalOGIN::backdrop {
+    background: rgba(12, 29, 65, 0.58);
+    backdrop-filter: blur(6px);
+    animation: fundoEntrar 0.3s ease-out both;
 }
 
-.cursor.sair {
-    opacity: 0;
+.janelalOGIN[open] {
+    animation: loginEntrar 0.4s cubic-bezier(.2, .8, .2, 1) both;
 }
 
-@keyframes girar {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+@keyframes loginEntrar {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fundoEntrar {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .janelalOGIN[open],
+    .janelalOGIN::backdrop {
+        animation: none;
+    }
 }
 
 /*-------------------FORM LOGIN--------------------*/
-form {
+
+.janelalOGIN.form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -164,6 +161,86 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     filter: brightness(1.15);
+}
+
+/*-------------------Texto Boas-Vindas----------------*/
+
+:root {
+    --cor-destaque: #6c5ce7;
+    --cor-destaque-2: #00b4d8;
+    --cor-titulo: #1b1f3b;
+    --cor-texto: #3e4257;
+}
+
+.descricaoPagina {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+
+/* Título com gradiente */
+.descricaoPagina h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    min-height: 1.15em;
+    margin-bottom: 1.25rem;
+    background: white;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: flex-grow .6s ease, padding .6s ease;
+}
+
+/* Parágrafos */
+.descricaoPagina p {
+    margin-top: 1.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cor-titulo);
+    width: 100%;
+    background: transparent;
+    color: rgba(250, 250, 250, 0.85);
+    backdrop-filter: blur();
+}
+
+/* Frase final em destaque */
+#paragrafo3 {
+    margin-top: 1.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cor-titulo);
+    width: 100%;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur();
+}
+
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: white;
+    vertical-align: text-bottom;
+    animation: girar 1s linear infinite;
+    transition: opacity 0.5s;
+}
+
+.cursor.sair {
+    opacity: 0;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
