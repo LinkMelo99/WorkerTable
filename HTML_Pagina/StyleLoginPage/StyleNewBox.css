@@ -1,4 +1,7 @@
 /* ---------- Título da nova box ---------- */
+.newBoxTable{
+    position: absolute;
+}
 
 .newBoxTable .tituloNovaBox {
     flex: none;

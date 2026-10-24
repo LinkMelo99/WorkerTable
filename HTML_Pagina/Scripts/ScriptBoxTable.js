@@ -1,10 +1,11 @@
-const getBox = document.getElementById("boxTable");
+const getBox =  document.querySelector('.newBoxTable');
 const ladoDir = document.getElementById("ladoDir");
 const ladoEsq = document.querySelector(".ladoEsq");
 const seta = document.getElementById("setaVoltar");
 const btnAdd = document.getElementById("btnAdd");
 const btnRemoverBox = document.querySelector('.buttonRemoverBox')
 
+const drag=document.querySelector(".newListaDeTarefasTemplate");
 
 let arrastando = false;
 let moveu = false;
@@ -127,6 +128,9 @@ function buttonRemoverBox(){
         getBox.remove()
     })
 }
+
+
+
 
 getBox.addEventListener("pointerup", soltar);
 getBox.addEventListener("pointercancel", soltar);

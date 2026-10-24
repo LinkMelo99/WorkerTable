@@ -108,7 +108,7 @@ body {
 
 /* ---------- Painel direito ---------- */
 
-.ladoDir {
+#ladoDir {
     position: relative;
     flex: 3 1 0;
     min-width: 0;

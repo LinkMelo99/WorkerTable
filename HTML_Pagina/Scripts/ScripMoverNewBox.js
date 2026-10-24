@@ -1,3 +1,4 @@
+
 function configurarArrasto(box) {
     let arrastando = false;
 
