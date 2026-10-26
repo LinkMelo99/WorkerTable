@@ -62,9 +62,12 @@ body {
 }
 
 /* ---------- Botão de voltar ---------- */
+.btnTableBox{
+    background: black;
+}
 
 .setaVoltar,
-.btnAddBox {
+.btnAddBox{
     position: absolute;
     left: 0;
     z-index: 10;
@@ -86,7 +89,7 @@ body {
 }
 
 .setaVoltar.visivel,
-.btnAddBox.visivel {
+.btnAddBox.visivel{
     opacity: 1;
     transform: translate(0, -50%);
     pointer-events: auto;

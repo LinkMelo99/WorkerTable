@@ -1,9 +1,28 @@
-.newBoxTable{
+/*==================== Box ====================*/
+
+.newBoxTable {
+    --cor-primaria: #2f54b8;
+    --cor-primaria-suave: #e8eefc;
+    --cor-texto: #1b2433;
+    --cor-texto-suave: #8a94a8;
+    --cor-borda: #d9dfec;
+    --cor-campo: #f4f6fb;
+    --cor-perigo: #ff6b6b;
+
     position: absolute;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
     overflow: hidden;
-    min-height: 400px;
 }
+
+
+.newBoxTable input {
+    user-select: text;
+}
+
+/*==================== Título do box ====================*/
 
 .newBoxTable .tituloNovaBox {
     flex: none;
@@ -20,8 +39,9 @@
     padding: 6px 10px;
     border: none;
     border-radius: 10px;
+    outline: none;
     background: transparent;
-    color: black;
+    color: var(--cor-texto);
     font-size: 1.45rem;
     font-weight: 700;
     line-height: 1.2;
@@ -32,41 +52,33 @@
     transition: background-color .15s ease, box-shadow .15s ease;
 }
 
-.newBoxTable .inputDoTituloNovaBox:focus,
-.newBoxTable .inputDoTituloNovaBox:focus-visible,
-.newBoxTable .inputDoTituloNovaBox:active {
-    outline: none;
-    border: none;
-    color: black;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .15);
-}
-.buttonRemoverNewBox{
-    background: #ffffff;
-    border: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 12px;
-    cursor: pointer;
+/*==================== Botão de remover o box ====================*/
+
+.buttonRemoverNewBox {
+    flex-shrink: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
-    top: 36%;
-    margin: 15px auto 0 auto;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: all 0.2s ease-in-out;
-
-    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    margin: 15px auto 0;
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+    transition: background-color .2s ease-in-out;
 }
 
-.buttonRemoverNewBox:hover{
-    background-color: #ff6b6b ;
+.buttonRemoverNewBox:hover {
+    background-color: var(--cor-perigo);
 }
-.buttonRemoverNewBox svg{
+
+.buttonRemoverNewBox svg {
     pointer-events: none;
 }
-/* ---------- Campo para criar tarefa ---------- */
+
+/*==================== Campo para criar tarefa ====================*/
 
 .newBoxTable .TituloNovaBoxTarefa {
     flex: none;
@@ -74,107 +86,88 @@
     align-items: center;
     gap: 8px;
     min-width: 0;
-    padding: 5px 5px 5px 14px;
-    border: 1px solid var(--linha);
-    border-radius: 14px;
-    background: var(--campo);
-    transition: background-color .15s ease, box-shadow .15s ease;
+    padding: 4px 4px 4px 16px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 999px;
+    background: var(--cor-campo);
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
 }
 
 .newBoxTable .TituloNovaBoxTarefa:hover {
-    background: var(--campo-hover);
+    border-color: #b6c0d8;
 }
 
 .newBoxTable .TituloNovaBoxTarefa:focus-within {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, .2);
+    background: #fff;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(47, 84, 184, .18);
 }
 
 .newBoxTable .inputNomeNovaBoxTarefa {
     flex: 1;
     min-width: 0;
-    width: auto;
-    padding: 9px 0;
+    padding: 8px 0;
     border: 0;
     outline: 0;
-    border-radius: 0;
     background: transparent;
-    color: black;
+    color: var(--cor-texto);
+    font: inherit;
     font-size: .95rem;
     font-weight: 500;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, .7);
 }
 
 .newBoxTable .inputNomeNovaBoxTarefa::placeholder {
-    color: black;
-}
-
-.newBoxTable .inputNomeNovaBoxTarefa:focus,
-.newBoxTable .inputNomeNovaBoxTarefa:focus-visible {
-    outline: none;
-    border: none;
-    background: transparent;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, .7);
+    color: var(--cor-texto-suave);
+    font-weight: 400;
 }
 
 .newBoxTable .buttonCreateBox {
     position: relative;
     flex: none;
     width: 34px;
-    min-width: 34px;
     height: 34px;
     padding: 0;
     border: 0;
-    border-radius: 10px;
-    background: var(--destaque);
+    border-radius: 50%;
+    background: var(--cor-primaria);
     cursor: pointer;
     transition: transform .12s ease, filter .12s ease;
 }
 
+/* o "+" é desenhado com dois traços */
 .newBoxTable .buttonCreateBox::before,
 .newBoxTable .buttonCreateBox::after {
     content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    background: var(--destaque-texto);
     border-radius: 2px;
+    background: #fff;
     transform: translate(-50%, -50%);
 }
 
-.newBoxTable .buttonCreateBox::before {
-    width: 14px;
-    height: 2.5px;
-}
+.newBoxTable .buttonCreateBox::before { width: 14px; height: 2.5px; }
+.newBoxTable .buttonCreateBox::after  { width: 2.5px; height: 14px; }
 
-.newBoxTable .buttonCreateBox::after {
-    width: 2.5px;
-    height: 14px;
-}
+.newBoxTable .buttonCreateBox:hover  { filter: brightness(1.1); }
+.newBoxTable .buttonCreateBox:active { transform: scale(.94); }
 
-.newBoxTable .buttonCreateBox:hover {
-    filter: brightness(1.06);
-}
-
-.newBoxTable .buttonCreateBox:active {
-    transform: scale(.94);
-}
-
-/* ---------- Lista de tarefas ---------- */
+/*==================== Lista de tarefas ====================*/
 
 .newBoxTable .newListaDeTarefasTemplate {
     flex: 1 1 auto;
     min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    list-style: none;
-    margin: 14px -18px 0 0;
-    padding: 0 12px 0 0;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin: 14px -18px 0 0;
+    padding: 0 12px 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style: none;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, .35) transparent;
+    scrollbar-color: rgba(47, 84, 184, .35) transparent;
 }
 
 .newBoxTable .newListaDeTarefasTemplate::-webkit-scrollbar {
@@ -186,13 +179,15 @@
 }
 
 .newBoxTable .newListaDeTarefasTemplate::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .3);
     border-radius: 999px;
+    background: rgba(47, 84, 184, .3);
 }
 
 .newBoxTable .newListaDeTarefasTemplate::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, .5);
+    background: rgba(47, 84, 184, .5);
 }
+
+/*==================== Tarefa ====================*/
 
 .newBoxTable .newListaDeTarefasTemplate li {
     flex: none;
@@ -201,13 +196,10 @@
     gap: 10px;
     min-width: 0;
     padding: 10px 10px 10px 14px;
-    border: 1px solid rgba(255, 255, 255, .35);
+    border: 1px solid var(--cor-borda);
     border-radius: 14px;
-    background: rgba(255, 255, 255, .08);
+    background: var(--cor-campo);
 }
-
-
-/* ---------- Cabeçalho da tarefa ---------- */
 
 .newBoxTable .textoTopo {
     display: flex;
@@ -223,19 +215,39 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: black;
+    color: var(--cor-texto);
     font-size: .95rem;
     font-weight: 600;
 }
 
-.newBoxTable .textoTitulo[contenteditable="true"] {
-    outline: 1px solid var(--destaque);
-    border-radius: 4px;
+/* ---------- Título em edição ---------- */
+
+.newBoxTable .textoTitulo[contenteditable="true"],
+.newBoxTable .inputEditarTitulo {
+
+    margin: -3px -8px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 2px var(--cor-primaria), 0 4px 12px rgba(47, 84, 184, .2);
+    caret-color: var(--cor-primaria);
+    cursor: text;
+    user-select: text;
+    text-overflow: clip;
     white-space: normal;
     overflow-wrap: anywhere;
 }
 
-/* ---------- Ações da tarefa ---------- */
+
+.newBoxTable .inputEditarTitulo {
+    width: calc(100% + 16px);
+    border: 0;
+    font: inherit;
+    color: var(--cor-texto);
+}
+
+/*==================== Ações da tarefa ====================*/
 
 .newBoxTable .acoes {
     display: flex;
@@ -245,149 +257,114 @@
     margin-left: auto;
 }
 
-.newBoxTable .buttonParticipantes,
-.newBoxTable .buttonNotes,
-.newBoxTable .buttonData,
-.newBoxTable .buttonRemover,
-.newBoxTable .buttonConcluido {
+.newBoxTable .acoes button {
     flex: none;
     height: 28px;
     min-width: 28px;
     padding: 0 9px;
-    border: 1px solid rgba(255, 255, 255, .5);
+    border: 1px solid var(--cor-borda);
     border-radius: 8px;
-    background: transparent;
-    color: black;
+    background: #fff;
+    color: var(--cor-texto);
     font-size: .75rem;
     font-weight: 600;
     line-height: 1;
     cursor: pointer;
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
-    transition:
-            transform .15s ease,
-            box-shadow .15s ease,
-            background-color .15s ease,
-            color .15s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+    transition: transform .15s ease, box-shadow .15s ease,
+    background-color .15s ease, color .15s ease;
 }
 
-.newBoxTable .buttonData,
-.newBoxTable .buttonRemover {
+.newBoxTable .acoes button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
+}
+
+
+.newBoxTable .acoes .buttonData,
+.newBoxTable .acoes .buttonRemover {
     padding: 0;
     font-size: .85rem;
 }
 
-.newBoxTable .buttonParticipantes:hover,
-.newBoxTable .buttonNotes:hover,
-.newBoxTable .buttonData:hover,
-.newBoxTable .buttonRemover:hover,
-.newBoxTable .buttonConcluido:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, .3);
+/* painel aberto */
+.newBoxTable .acoes button[aria-expanded="true"] {
+    border-color: var(--cor-primaria);
+    background: var(--cor-primaria-suave);
+    color: var(--cor-primaria);
 }
 
-.newBoxTable .buttonParticipantes[aria-expanded="true"],
-.newBoxTable .buttonNotes[aria-expanded="true"],
-.newBoxTable .buttonData[aria-expanded="true"] {
-    background: var(--destaque);
-    color: var(--destaque-texto);
+.newBoxTable .acoes .buttonRemover:hover {
+    background: var(--cor-perigo);
 }
 
-.newBoxTable .buttonRemover:hover {
-    background: var(--perigo);
-    color: black;
-}
-
-.newBoxTable .buttonConcluido:hover {
+.newBoxTable .acoes .buttonConcluido:hover,
+.newBoxTable .acoes .buttonConcluido[aria-pressed="true"] {
     background: forestgreen;
-    color: black;
 }
 
-.newBoxTable .buttonConcluido[aria-pressed="true"] {
-    background: forestgreen;
-    color: black;
-}
-
-/* ---------- Tarefa concluída ---------- */
+/*==================== Tarefa concluída ====================*/
 
 .newBoxTable .newListaDeTarefasTemplate li.tarefaConcluida .textoTitulo {
     opacity: .7;
     text-decoration: line-through;
 }
 
-/* ---------- Resumos ---------- */
+/*==================== Resumos ====================*/
 
 .newBoxTable .textoHidden,
 .newBoxTable .descricaoHidden {
-    color: black;
+    color: var(--cor-texto);
     font-size: .75rem;
     overflow-wrap: anywhere;
 }
 
-/* ---------- Painel de datas e descrição ---------- */
+/*==================== Painel de datas e descrição ====================*/
 
 .newBoxTable .datasInicioeFim {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
     align-items: flex-end;
+    justify-content: center;
     gap: 20px;
     width: 100%;
 }
 
-.newBoxTable .datasInicioeFim label {
+.newBoxTable .datasInicioeFim label,
+.newBoxTable .descricaoNotes label {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     gap: 4px;
-    width: 140px;
     min-width: 0;
+    color: var(--cor-texto);
     font-size: .7rem;
     font-weight: 600;
     letter-spacing: .02em;
     text-transform: uppercase;
-    color: black;
 }
+
+.newBoxTable .datasInicioeFim label { width: 150px; }
+.newBoxTable .descricaoNotes label  { width: 100%; }
 
 .newBoxTable .dataInicio,
 .newBoxTable .dataFim,
 .newBoxTable .inputDescricao {
     box-sizing: border-box;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 32px;
-    width: 150px;
+    width: 100%;
     min-width: 0;
+    height: 32px;
     padding: 0 10px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
+    outline: none;
     background: whitesmoke;
     color: #000;
     font-family: inherit;
     font-size: .82rem;
     font-weight: 500;
     cursor: text;
-    outline: none;
-    transition:
-            border-color .15s ease,
-            background-color .15s ease,
-            box-shadow .15s ease;
-}
-
-.newBoxTable .inputDescricao {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    min-width: 0;
-    width: 100%;
-    height: 30px;
-    background: whitesmoke;
-    color: #000;
-    cursor: text;
+    transition: border-color .15s ease, box-shadow .15s ease;
 }
 
 .newBoxTable .dataInicio::placeholder,
@@ -400,20 +377,18 @@
 .newBoxTable .dataInicio:hover,
 .newBoxTable .dataFim:hover,
 .newBoxTable .inputDescricao:hover {
-    background: whitesmoke;
     border-color: #9ca3af;
 }
 
 .newBoxTable .dataInicio:focus,
 .newBoxTable .dataFim:focus,
 .newBoxTable .inputDescricao:focus {
-    background: whitesmoke;
     border-color: #111;
     box-shadow: 0 0 0 3px rgba(0, 0, 0, .08);
 }
 
-.newBoxTable ul {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
+/*==================== Atributo hidden ====================*/
+.newBoxTable [hidden] {
+    display: none;
 }
+
