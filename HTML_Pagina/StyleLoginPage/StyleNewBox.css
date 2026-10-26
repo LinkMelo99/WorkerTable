@@ -1,6 +1,8 @@
-/* ---------- Título da nova box ---------- */
 .newBoxTable{
     position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-height: 400px;
 }
 
 .newBoxTable .tituloNovaBox {
@@ -203,6 +205,7 @@
     border-radius: 14px;
     background: rgba(255, 255, 255, .08);
 }
+
 
 /* ---------- Cabeçalho da tarefa ---------- */
 
@@ -407,4 +410,10 @@
     background: whitesmoke;
     border-color: #111;
     box-shadow: 0 0 0 3px rgba(0, 0, 0, .08);
+}
+
+.newBoxTable ul {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
 }

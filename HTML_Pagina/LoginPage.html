@@ -31,7 +31,7 @@
 
 
         <div class="buttonLogin">
-            <button type="button"  class='btnLogin'aria-expanded="false">LOGIN</button>
+            <button type="button"  class='btnLogin' aria-expanded="false">LOGIN</button>
         </div>
 
         <dialog class="janelalOGIN">
@@ -108,37 +108,9 @@
             </svg>
         </button>
 
-<!--        <div class="boxTable" id="boxTable">-->
-
-<!--            &lt;!&ndash;Titulo da box&ndash;&gt;-->
-<!--            <div class="tituloDaBox">-->
-<!--                <label class="tituloBox" for="tituloBox"> <input type="text" id="tituloBox" value="WorkTable"-->
-<!--                                                                 class="inputDoTituloDaBox"></label>-->
-<!--            </div>-->
-
-<!--            <div class="TituloTarefa">-->
-<!--                <label class="nomeTarefa" for="nomeTarefa"></label>-->
-<!--                <input type="text" id="nomeTarefa" value="Tarefa 1" class="inputNomeTarefa" required>-->
-
-<!--                <button type="button" class="buttonAdicionar"></button>-->
-<!--            </div>-->
-
-<!--            <button type="button" class="buttonRemoverBox">-->
-<!--                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="10" height="10">-->
-<!--                    <path d="M504.6 148.5C515.9 134.9 514.1 114.7 500.5 103.4C486.9 92.1 466.7 93.9 455.4 107.5L320 270L184.6 107.5C173.3 93.9 153.1 92.1 139.5 103.4C125.9 114.7 124.1 134.9 135.4 148.5L278.3 320L135.4 491.5C124.1 505.1 125.9 525.3 139.5 536.6C153.1 547.9 173.3 546.1 184.6 532.5L320 370L455.4 532.5C466.7 546.1 486.9 547.9 500.5 536.6C514.1 525.3 515.9 505.1 504.6 491.5L361.7 320L504.6 148.5z"/>-->
-<!--                </svg>-->
-<!--            </button>-->
-
-
-            <ul class="listaDeTarefas"></ul>
-
-        </div>
-
-    </div>
-
 
 <template id="modeloTarefa">
-    <li id="tarefa">
+    <li>
         <div class="textoTopo">
             <span class="textoTitulo"></span>
 
@@ -162,7 +134,7 @@
                 </button>
 
                 <button type="button" class="buttonConcluido"
-                        aria-label="Botao De Conclusao" aria-expanded="false">✔️
+                        aria-label="Botao De Conclusao">✔️
                 </button>
 
             </div>
@@ -213,8 +185,6 @@
 
 
 <script src="Scripts/ScriptCriarTarefa.js"></script>
-
-<script src="Scripts/ScripMoverNewBox.js"></script>
 <script src="Scripts/ScriptBoxTable.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
 <script src="Scripts/ScriptCriarBox.js"></script>

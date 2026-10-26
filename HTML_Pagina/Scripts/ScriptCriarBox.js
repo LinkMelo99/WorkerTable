@@ -51,14 +51,12 @@ function criarBox() {
     ladoDirNewBox.appendChild(clone);
 
 
-    const x = (ladoDir.offsetWidth-box.offsetWidth)/2
-    const y = (ladoDir.offsetHeight-box.offsetWidth)/2
+    const x = (ladoDirNewBox.offsetWidth-box.offsetWidth)/2
+    const y = (ladoDirNewBox.offsetHeight-box.offsetHeight)/2
 
     box.style.left=`${x}px`;
     box.style.top=`${y}px`;
 
-
-    // Configurar o arrasto da box criada
     configurarArrasto(box);
 
     return box;
@@ -71,7 +69,8 @@ ladoDirNewBox.addEventListener('click',(event)=>{
     }
 })
 buttonAddBox.addEventListener('click', criarBox);
+
 window.addEventListener('DOMContentLoaded', () => {
-   boxBColor= criarBox();
-    boxBColor.style.backgroundColor='#fff'
+    const box = criarBox();
+    box.style.backgroundColor = '#fff';
 });

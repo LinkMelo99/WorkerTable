@@ -128,6 +128,10 @@ function atualizarResumoNotes(input, resumo) {
 function configurarDatas(elementos) {
     const { dataInicio, dataFim, botaoData, areaDatas } = elementos;
 
+    botaoData.addEventListener('click', () => {
+        alternarDatas(areaDatas, botaoData);
+    });
+
     if (typeof flatpickr !== 'function') return;
 
     flatpickr(dataInicio, {
@@ -140,10 +144,6 @@ function configurarDatas(elementos) {
         dateFormat: 'd/m/Y',
         allowInput: true,
         onChange: () => atualizarResumoDatas(elementos)
-    });
-
-    botaoData.addEventListener('click', () => {
-        alternarDatas(areaDatas, botaoData);
     });
 }
 
@@ -173,23 +173,26 @@ function atualizarResumoDatas(elementos) {
 }
 
 
-function editarNomeTarefa(li){
-    const liNomeTarefa = li.querySelector('.textoTitulo')
+function editarNomeTarefa(li) {
+    const liNomeTarefa = li.querySelector('.textoTitulo');
 
-    const inputNovoNome = document.createElement('input')
-    inputNovoNome.value= liNomeTarefa.textContent
+    const inputNovoNome = document.createElement('input');
+    inputNovoNome.value = liNomeTarefa.textContent;
 
-    liNomeTarefa.replaceWith( inputNovoNome)
-    inputNovoNome.select()
+    liNomeTarefa.replaceWith(inputNovoNome);
+    inputNovoNome.select();
 
-    inputNovoNome.addEventListener('keydown',(e)=>{
-        if(e.key==='Enter'){
-            const novoNome= inputNovoNome.value.trim()
-            if(novoNome) liNomeTarefa.textContent=novoNome
-            inputNovoNome.replaceWith(liNomeTarefa)
-        }
-    })
+    function finalizar() {
+        const novoNome = inputNovoNome.value.trim();
+        if (novoNome) liNomeTarefa.textContent = novoNome;
+        inputNovoNome.replaceWith(liNomeTarefa);
+    }
 
+    inputNovoNome.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') finalizar();
+    });
+
+    inputNovoNome.addEventListener('blur', finalizar, { once: true });
 }
 
 function configurarNomeTarefa(elemento){
@@ -210,12 +213,14 @@ function adicionarNaBoxOriginal() {
     nomeTarefa.value = '';
 }
 
-buttonAddTarefa.addEventListener('click', adicionarNaBoxOriginal);
 
-nomeTarefa.addEventListener('keydown', (evento) => {
-    if (evento.key === 'Enter') {
-        evento.preventDefault();
-        adicionarNaBoxOriginal();
-    }
-});
+if (buttonAddTarefa && nomeTarefa) {
+    buttonAddTarefa.addEventListener('click', adicionarNaBoxOriginal);
 
+    nomeTarefa.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Enter') {
+            evento.preventDefault();
+            adicionarNaBoxOriginal();
+        }
+    });
+}
