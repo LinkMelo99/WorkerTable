@@ -87,20 +87,20 @@
     gap: 8px;
     min-width: 0;
     padding: 4px 4px 4px 16px;
-    border: 1px solid var(--cor-borda);
+    border: 1px solid transparent;
     border-radius: 999px;
     background: var(--cor-campo);
     transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
 }
 
 .newBoxTable .TituloNovaBoxTarefa:hover {
-    border-color: #b6c0d8;
+    border-color: transparent;
 }
 
 .newBoxTable .TituloNovaBoxTarefa:focus-within {
     background: #fff;
-    border-color: var(--cor-primaria);
-    box-shadow: 0 0 0 3px rgba(47, 84, 184, .18);
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .12);
 }
 
 .newBoxTable .inputNomeNovaBoxTarefa {
@@ -110,6 +110,7 @@
     border: 0;
     outline: 0;
     background: transparent;
+    border: none;
     color: var(--cor-texto);
     font: inherit;
     font-size: .95rem;
@@ -121,6 +122,12 @@
     font-weight: 400;
 }
 
+.newBoxTable .inputNomeNovaBoxTarefa:focus,
+.newBoxTable .inputNomeNovaBoxTarefa:focus-visible {
+    border-color: transparent;
+    box-shadow: var(--cor-texto-suave);;
+    outline: none;
+}
 .newBoxTable .buttonCreateBox {
     position: relative;
     flex: none;
@@ -287,7 +294,7 @@
     font-size: .85rem;
 }
 
-/* painel aberto */
+
 .newBoxTable .acoes button[aria-expanded="true"] {
     border-color: var(--cor-primaria);
     background: var(--cor-primaria-suave);

@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="StyleLoginPage/StyleLoginPage.css">
     <link rel="stylesheet" href="StyleLoginPage/StyleNewBox.css">
     <link rel="stylesheet" href="StyleLoginPage/StyleLogin.css">
+    <link rel="stylesheet" href="StyleLoginPage/StyleTables.css">
 
 
 </head>
 
-<body>
 
 
 <div class="ladoEsq">
@@ -100,7 +100,9 @@
             <path d="M9 6l6 6-6 6"/>
         </svg>
     </button>
-    <div>
+
+
+    <div id="menuLateral" class="menuLateral">
         <button type="button" class="btnAddBox" id="btnAdd" aria-label="Adicionar box">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="5"
                  aria-hidden="true">
@@ -108,10 +110,10 @@
             </svg>
         </button>
 
-        <button type="button" id="btnTableBox" class="btnTableBox" aria-label="Adicionar box" title="Adicionar box">
+        <button type="button" id="areaDeTables" class="btnTableBox" aria-label="Adicionar área de tables" title="Adicionar área">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
                  fill="none" stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round" >
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="3" y="3" width="13" height="13" rx="3"/>
                 <path d="M6.5 7.5h6"/>
                 <rect x="6.5" y="10" width="6" height="3" rx="1.5"/>
@@ -194,12 +196,17 @@
         </div>
     </template>
 
+    <template id="boxTransparente">
+        <div class="SandBox" data-dica="Arraste as Box's"></div>
+    </template>
+</div>
 
-    <script src="Scripts/ScriptCriarTarefa.js"></script>
-    <script src="Scripts/ScriptBoxTable.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
-    <script src="Scripts/ScriptCriarBox.js"></script>
-    <script src="Scripts/ScriptTextoBoasVindas.js"></script>
-    <script src="Scripts/ScriptLogin.js"></script>
-</body>
+<script src="Scripts/ScriptCriarTarefa.js"></script>
+<script src="Scripts/ScriptBoxTable.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
+<script src="Scripts/ScriptCriarBox.js"></script>
+<script src="Scripts/ScriptTextoBoasVindas.js"></script>
+<script src="Scripts/ScriptLogin.js"></script>
+<script src="Scripts/ScriptAreaTables.js"></script>
+
 </html>

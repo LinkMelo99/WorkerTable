@@ -61,54 +61,6 @@ body {
     pointer-events: none;
 }
 
-/* ---------- Botão de voltar ---------- */
-.btnTableBox{
-    background: black;
-}
-
-.setaVoltar,
-.btnAddBox{
-    position: absolute;
-    left: 0;
-    z-index: 10;
-    width: 36px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    border-radius: 0 var(--r-md) var(--r-md) 0;
-    background: var(--accent-dark);
-    color: var(--on-accent);
-    cursor: pointer;
-    opacity: 0;
-    transform: translate(-100%, -50%);
-    pointer-events: none;
-    transition: transform .4s ease, opacity .4s ease, filter .2s;
-}
-
-.setaVoltar.visivel,
-.btnAddBox.visivel{
-    opacity: 1;
-    transform: translate(0, -50%);
-    pointer-events: auto;
-}
-
-.setaVoltar:hover,
-.btnAddBox:hover {
-    filter: brightness(1.2);
-}
-
-.setaVoltar {
-    top: calc(50% - 38px);
-}
-
-.btnAddBox {
-    top: calc(50% + 38px);
-}
-
-
 /* ---------- Painel direito ---------- */
 
 #ladoDir {
@@ -128,6 +80,73 @@ body {
     background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
     background-repeat: repeat;
 }
+
+.setaVoltar,
+.menuLateral {
+    position: absolute;
+    left: 0;
+    z-index: 10;
+    opacity: 0;
+    transform: translate(-100%, -50%);
+    pointer-events: none;
+    transition: transform .4s ease, opacity .4s ease;
+}
+
+.setaVoltar.visivel,
+.menuLateral.visivel {
+    opacity: 1;
+    transform: translate(0, -50%);
+    pointer-events: auto;
+}
+
+.menuLateral {
+    top: calc(50% + 50px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    background: var(--accent-dark);
+}
+
+.btnAddBox,
+.btnTableBox {
+    width: 36px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--on-accent);
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+.btnAddBox:hover,
+.btnTableBox:hover {
+    background: rgba(255, 255, 255, .15);
+}
+
+.btnTableBox {
+    border-top: 1px solid rgba(255, 255, 255, .25);
+}
+
+.setaVoltar {
+    top: calc(50% - 38px);
+    width: 36px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    background: var(--accent-dark);
+    color: var(--on-accent);
+    cursor: pointer;
+}
+
 
 /* ---------- Caixa WorkTable ---------- */
 

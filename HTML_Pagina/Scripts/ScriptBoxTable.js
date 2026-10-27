@@ -2,8 +2,8 @@
 
 const ladoDir = document.getElementById("ladoDir");
 const ladoEsq = document.querySelector(".ladoEsq");
-const seta = document.getElementById("setaVoltar");
-const btnAdd = document.getElementById("btnAdd");
+const seta = document.querySelector('.setaVoltar')
+const menuLateral = document.getElementById('menuLateral')
 
 /*==================== Constantes ====================*/
 
@@ -32,7 +32,7 @@ function limitar(box, left, top) {
 }
 
 function manterDentro() {
-    document.querySelectorAll(".newBoxTable").forEach((box) => {
+    document.querySelectorAll(".newBoxTable,.SandBox").forEach((box) => {
         const { left, top } = limitar(box, box.offsetLeft, box.offsetTop);
         posicionar(box, left, top);
     });
@@ -54,7 +54,7 @@ function acompanharTransicao(ms = DURACAO_TRANSICAO) {
 
 function mostrarControles(visivel) {
     seta.classList.toggle("visivel", visivel);
-    btnAdd.classList.toggle("visivel", visivel);
+    menuLateral.classList.toggle("visivel", visivel);
 }
 
 function esconderPainelEsq() {
@@ -73,7 +73,7 @@ function mostrarPainelEsq() {
 }
 
 ladoDir.addEventListener("click", (e) => {
-    if (e.target.closest(".newBoxTable, #setaVoltar, #btnAdd")) return;
+    if (e.target.closest(".newBoxTable, .setaVoltar, .menuLateral,.SandBox")) return;
     esconderPainelEsq();
 });
 
@@ -95,13 +95,6 @@ function detectarBorda(event, box) {
     };
 }
 
-// Calcula posição e tamanho de UM eixo ao puxar uma borda.
-//   borda:  -1 (início: esquerda/topo), 1 (fim: direita/base) ou 0
-//   inicio: left/top do box ao começar o gesto
-//   tamanho: width/height do box ao começar o gesto
-//   delta:  deslocamento do ponteiro desde o início do gesto
-//   limite: tamanho do ladoDir nesse eixo
-//   minimo: tamanho mínimo do box nesse eixo
 function calcularEixo(borda, inicio, tamanho, delta, limite, minimo) {
     if (borda === 1) {
         return {
@@ -134,15 +127,12 @@ function configurarArrasto(box) {
     let redimensionar = false;
 
     let borda = { x: 0, y: 0 };
-    let inicial = { left: 0, top: 0, width: 0, height: 0 };  // medidas ao começar o gesto
-    let inicio = { x: 0, y: 0 };                             // ponteiro ao começar o gesto
-    let ultimo = { x: 0, y: 0 };                             // ponteiro mais recente
-    let deslocamento = { x: 0, y: 0 };                       // ponteiro dentro do box (arraste)
+    let inicial = { left: 0, top: 0, width: 0, height: 0 };
+    let inicio = { x: 0, y: 0 };
+    let ultimo = { x: 0, y: 0 };
+    let deslocamento = { x: 0, y: 0 };
 
     const btnRemover = box.querySelector(".buttonRemoverNewBox");
-
-    // O JS controla o tamanho; estes estilos inline sobrescrevem
-    // qualquer max-height/min-height/min-width definido no CSS
     box.style.maxHeight = "none";
     box.style.minWidth = `${MIN_W}px`;
     box.style.minHeight = `${MIN_H}px`;
@@ -254,3 +244,6 @@ function configurarArrasto(box) {
     box.addEventListener("pointerup", finalizarGesto);
     box.addEventListener("pointercancel", finalizarGesto);
 }
+
+
+
