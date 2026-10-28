@@ -51,3 +51,11 @@
     pointer-events: none;
 
 }
+
+.armazenamentoPasta {
+    display: none;
+}
+
+.SandBox.aberta .armazenamentoPasta {
+    display: block;
+}
