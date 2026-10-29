@@ -143,3 +143,74 @@
     z-index: 10;
     cursor: grab;
 }
+
+.botoesMiniatura{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    max-width: 100%;
+    padding: 4px 6px 4px 12px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, .65);
+    border: 1px solid rgba(255, 255, 255, .7);
+    border-radius: 999px;
+
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.botoesMiniatura:hover {
+    background: rgba(255, 255, 255, .92);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(31, 38, 135, .18);
+}
+.botoesMiniatura .miniaturaPasta {
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    transform: none;
+}
+
+.botoesMiniatura .miniaturaPasta:hover {
+    background: none;
+    transform: none;
+}
+
+/* botão pequeno de remover */
+.botaoRemoverMiniatura {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 18px;
+    height: 18px;
+    padding: 0;
+
+    background: rgba(0, 0, 0, .12);
+    border: 0;
+    border-radius: 50%;
+
+    color: #202020;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+
+    transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+
+.botaoRemoverMiniatura:hover {
+    background: #ef4444;
+    color: #fff;
+    transform: scale(1.12);
+}
+
+.botaoRemoverMiniatura:active {
+    transform: scale(.9);
+}
+
+.botaoRemoverMiniatura:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}

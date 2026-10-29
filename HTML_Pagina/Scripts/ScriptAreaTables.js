@@ -18,7 +18,6 @@ areaTables.addEventListener('click', () => {
 
         clone.classList.toggle('aberta');
     });
-
     pastas.push(clone);
 });
 
@@ -71,8 +70,10 @@ function styleMiniatura(box, pasta) {
 
     if (existente) return;
 
-    const miniatura = document.createElement('button');
+    const botoesMiniatura = document.createElement('div')
+    botoesMiniatura.classList.add('botoesMiniatura')
 
+    const miniatura = document.createElement('button')
     miniatura.type = 'button';
     miniatura.classList.add('miniaturaPasta');
     miniatura.dataset.boxId = box.dataset.id;
@@ -80,11 +81,24 @@ function styleMiniatura(box, pasta) {
     const titulo = box.querySelector(
         '.inputDoTituloNovaBox, .inputDoTituloDaBox'
     );
-
     miniatura.textContent =
         '🗂️ ' + (titulo?.value.trim() || 'Box guardada');
 
-    containerMiniaturas.appendChild(miniatura);
+
+    const botaoremoverminiatura = document.createElement('button')
+    botaoremoverminiatura.type = 'button'
+    botaoremoverminiatura.classList.add('botaoRemoverMiniatura')
+    botaoremoverminiatura.textContent = 'x'
+    botaoremoverminiatura.addEventListener('click', (e) => {
+        e.stopPropagation();
+        box.classList.remove('expandida');
+        box.remove();
+        botoesMiniatura.remove();
+    });
+
+
+    botoesMiniatura.append(miniatura, botaoremoverminiatura)
+    containerMiniaturas.appendChild(botoesMiniatura);
 }
 
 
@@ -178,5 +192,31 @@ function configurarArrastoExpandida(box) {
     box.addEventListener('pointercancel', pararArrasto);
 }
 
+function botaoRemoverMiniatura() {
 
+    document.addEventListener('click', (e) => {
+        e.target.closest('.buttonRemover')
+
+        e.remove()
+    })
+}
+botaoRemoverMiniatura();
+
+
+function removerForButtonBox() {
+    document.addEventListener('click', (e) => {
+        const botao = e.target.closest('.buttonRemoverNewBox');
+        if (!botao) return;
+
+        const box = botao.closest('.newBoxTable');
+        if (!box || !box.dataset.id) return;
+
+        const miniatura = document.querySelector(
+            `[data-box-id="${box.dataset.id}"]`
+        );
+        if (!miniatura) return;
+
+        (miniatura.closest('.botoesMiniatura, .estiloMiniaturaPasta') || miniatura).remove();
+    }, true);}
+removerForButtonBox()
 
