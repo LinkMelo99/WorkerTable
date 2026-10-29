@@ -224,6 +224,12 @@ function configurarArrasto(box) {
 
     box.addEventListener("pointerdown", (event) => {
         if (event.button !== 0 || arrastando) return;
+        if (
+            box.closest('.armazenamentoPasta') &&
+            box.classList.contains('expandida')
+        ) {
+            return;
+        }
         if (event.target.closest("input, button, label, li")) return;
         iniciarGesto(event);
     });

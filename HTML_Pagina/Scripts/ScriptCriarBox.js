@@ -58,6 +58,7 @@ function criarBox() {
     box.style.top=`${y}px`;
 
     configurarArrasto(box);
+    configurarArrastoExpandida(box)
 
     return box;
 }
