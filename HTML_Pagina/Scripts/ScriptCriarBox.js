@@ -60,8 +60,8 @@ function criarBox() {
     configurarArrasto(box);
     configurarArrastoExpandida(box)
     redimensionarBoxExpandida(box)
-
-    return box;
+    anotacoesLivres(box)
+    obeserverBox(box)
 }
 ladoDirNewBox.addEventListener('click',(event)=>{
 

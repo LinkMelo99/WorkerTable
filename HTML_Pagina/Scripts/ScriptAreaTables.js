@@ -192,17 +192,6 @@ function configurarArrastoExpandida(box) {
     box.addEventListener('pointercancel', pararArrasto);
 }
 
-function botaoRemoverMiniatura() {
-
-    document.addEventListener('click', (e) => {
-        e.target.closest('.buttonRemover')
-
-        e.remove()
-    })
-}
-botaoRemoverMiniatura();
-
-
 function removerForButtonBox() {
     document.addEventListener('click', (e) => {
         const botao = e.target.closest('.buttonRemoverNewBox');
@@ -388,26 +377,69 @@ function redimensionarBoxExpandida(box) {
     box.addEventListener('pointerup', finalizarRedimensionamento);
     box.addEventListener('pointercancel', finalizarRedimensionamento);
 }
-redimensionarBoxExpandida(box)
 
-function anotacoesLivres(box){
-    let arrastando= false;
+const blocos = [];
+function anotacoesLivres(box) {
 
-    let alturaInicial =0
-    let larguraInicial =0
-
+    let arrastando= false
+    let pointX=0
+    let pointY=0
+    let rect=null
     box.addEventListener('pointerdown',(e)=>{
-        if(!e.target.closest('.newBoxTable')){return}
+        const click= e.target.closest('.newBoxTable')
+        if(!click) return
 
-        const rect=box.getBoundingClientRect()
+        rect = box.getBoundingClientRect()
+        if(!rect) return
 
-        const pointerX= e.clientX
-        const pointerY=  e.clientY
+        pointX = e.clientX- rect.left
+        pointY = e.clientY- rect.right
 
-        const larguraInicial=box.left
-        const alturaInicial=box.right
+        e.setPointerCapture(e.pointerId)
+        arrastando = true
+    })
+
+    box.addEventListener('pointermove',(e)=>{
+
+        if(!arrastando) return;
+
+        const x=e.clientX-rect.left
+        const y=e.clientY-rect.top
+
+        const clickSuperiorBox = rect.bottom - pointY - e.eventY
+
+        if(clickSuperiorBox < rect.height/2)
 
 
     })
+    const { width, height } = box.getBoundingClientRect();
 
+    if( width<500 || height<500 ){
+        const blocoExiste = document.querySelector('.blocoDeAnotacoes')
+        if(blocoExiste){
+            blocoExiste.remove()
+            blocos.splice(blocos.indexOf(blocoExiste), 1);
+        }
+        return
+    }
+
+
+    if (width <= 550 || height <= 550) return;
+    if (box.querySelector('.blocoDeAnotacoes')) return;
+
+    const blocoAnotacoes = document.createElement('div');
+    blocoAnotacoes.classList.add('blocoDeAnotacoes');
+    blocoAnotacoes.style.background = 'black';
+    blocoAnotacoes.style.width = '300px';
+    blocoAnotacoes.style.height = '300px';
+
+    box.appendChild(blocoAnotacoes);
+    blocos.push(blocoAnotacoes);
+}
+function obeserverBox(box){
+    const b =document. querySelector('.newBoxTable')
+    const observer = new ResizeObserver(()=>{
+        anotacoesLivres(box)
+    })
+    observer.observe(box)
 }
