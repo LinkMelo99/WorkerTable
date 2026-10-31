@@ -220,3 +220,194 @@ function removerForButtonBox() {
     }, true);}
 removerForButtonBox()
 
+
+function redimensionarBoxExpandida(box) {
+    let redimensionamento = false;
+    let direcao = null;
+
+    const margem = 10;
+    const larguraMinima = 180;
+    const alturaMinima = 120;
+
+    let posicaoX = 0;
+    let posicaoY = 0;
+
+    let larguraInicial = 0;
+    let alturaInicial = 0;
+
+    let esquerdaInicial = 0;
+    let topoInicial = 0;
+
+    // Identifica em qual borda o mouse está.
+    function identificarBorda(e) {
+        const rect = box.getBoundingClientRect();
+
+        const esquerda = e.clientX <= rect.left + margem;
+        const direita = e.clientX >= rect.right - margem;
+
+        const superior = e.clientY <= rect.top + margem;
+        const inferior = e.clientY >= rect.bottom - margem;
+
+        if (superior && esquerda) return 'nw';
+        if (superior && direita) return 'ne';
+
+        if (inferior && esquerda) return 'sw';
+        if (inferior && direita) return 'se';
+
+        if (superior) return 'n';
+        if (inferior) return 's';
+
+        if (esquerda) return 'w';
+        if (direita) return 'e';
+
+        return null;
+    }
+
+    box.addEventListener('pointerdown', (e) => {
+        if (!box.classList.contains('expandida')) return;
+        if (e.button !== 0) return;
+
+        const borda = identificarBorda(e);
+
+        if (!borda) return;
+
+        const rect = box.getBoundingClientRect();
+
+        const pasta = box.closest('.SandBox');
+        if (!pasta) return;
+
+        const rectPasta = pasta.getBoundingClientRect();
+
+        direcao = borda;
+
+        posicaoX = e.clientX;
+        posicaoY = e.clientY;
+
+        larguraInicial = rect.width;
+        alturaInicial = rect.height;
+
+        esquerdaInicial =
+            rect.left - rectPasta.left - pasta.clientLeft + pasta.scrollLeft;
+
+        topoInicial =
+            rect.top - rectPasta.top - pasta.clientTop + pasta.scrollTop;
+
+
+        box.style.left = `${esquerdaInicial}px`;
+        box.style.top = `${topoInicial}px`;
+
+        redimensionamento = true;
+
+        box.setPointerCapture(e.pointerId);
+
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+
+    box.addEventListener('pointermove', (e) => {
+
+        if (!redimensionamento) {
+            const borda = identificarBorda(e);
+
+            const cursores = {
+                nw: 'nwse-resize',
+                se: 'nwse-resize',
+                ne: 'nesw-resize',
+                sw: 'nesw-resize',
+                n: 'ns-resize',
+                s: 'ns-resize',
+                e: 'ew-resize',
+                w: 'ew-resize'
+            };
+
+            box.style.cursor = cursores[borda] || 'default';
+
+            return;
+        }
+
+        e.stopPropagation();
+
+        const diferencaX = e.clientX - posicaoX;
+        const diferencaY = e.clientY - posicaoY;
+
+        let novaLargura = larguraInicial;
+        let novaAltura = alturaInicial;
+
+        let novaEsquerda = esquerdaInicial;
+        let novoTopo = topoInicial;
+
+        // Redimensionamento horizontal.
+        if (direcao.includes('e')) {
+            novaLargura = Math.max(
+                larguraMinima,
+                larguraInicial + diferencaX
+            );
+        }
+
+        if (direcao.includes('w')) {
+            novaLargura = Math.max(
+                larguraMinima,
+                larguraInicial - diferencaX
+            );
+
+            novaEsquerda =
+                esquerdaInicial + (larguraInicial - novaLargura);
+        }
+
+        if (direcao.includes('s')) {
+            novaAltura = Math.max(
+                alturaMinima,
+                alturaInicial + diferencaY
+            );
+        }
+
+        if (direcao.includes('n')) {
+            novaAltura = Math.max(
+                alturaMinima,
+                alturaInicial - diferencaY
+            );
+
+            novoTopo =
+                topoInicial + (alturaInicial - novaAltura);
+        }
+
+        box.style.width = `${novaLargura}px`;
+        box.style.height = `${novaAltura}px`;
+
+        box.style.left = `${novaEsquerda}px`;
+        box.style.top = `${novoTopo}px`;
+    });
+
+
+    function finalizarRedimensionamento() {
+        redimensionamento = false;
+        direcao = null;
+    }
+
+    box.addEventListener('pointerup', finalizarRedimensionamento);
+    box.addEventListener('pointercancel', finalizarRedimensionamento);
+}
+redimensionarBoxExpandida(box)
+
+function anotacoesLivres(box){
+    let arrastando= false;
+
+    let alturaInicial =0
+    let larguraInicial =0
+
+    box.addEventListener('pointerdown',(e)=>{
+        if(!e.target.closest('.newBoxTable')){return}
+
+        const rect=box.getBoundingClientRect()
+
+        const pointerX= e.clientX
+        const pointerY=  e.clientY
+
+        const larguraInicial=box.left
+        const alturaInicial=box.right
+
+
+    })
+
+}

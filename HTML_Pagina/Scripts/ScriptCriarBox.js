@@ -59,6 +59,7 @@ function criarBox() {
 
     configurarArrasto(box);
     configurarArrastoExpandida(box)
+    redimensionarBoxExpandida(box)
 
     return box;
 }
