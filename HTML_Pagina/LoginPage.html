@@ -35,10 +35,10 @@
     </div>
 
     <dialog class="janelalOGIN">
-        <h1>Tela login</h1>
+
         <form action="/login" method="post" class="login">
 
-            <div class="email" hidden>
+            <div class="email">
                 <label for="email">Email</label>
                 <input
                         id="email"
@@ -49,7 +49,7 @@
                 >
             </div>
 
-            <div class="senha" hidden>
+            <div class="senha" >
                 <div class="senha-cabecalho">
                     <label for="senha">Senha</label>
                     <a href="#">Esqueceu a senha?</a>
@@ -64,9 +64,9 @@
                 >
             </div>
 
-            <button type="submit" hidden>Entrar</button>
+            <button type="submit" >Entrar</button>
 
-            <button type="button" class="gsi-material-button" hidden>
+            <button type="button" class="gsi-material-button" >
                 <div class="gsi-material-button-state"></div>
                 <div class="gsi-material-button-content-wrapper">
                     <div class="gsi-material-button-icon">
@@ -130,8 +130,19 @@
                 <div class="acoes">
 
                     <button type="button" class="buttonParticipantes"
-                            aria-expanded="false"
-                    >Part
+                            aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                          width="25" height="25"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round">
+
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 21a8 8 0 0 1 16 0"/>
+                    </svg>
                     </button>
 
                     <button type="button" class="buttonNotes"

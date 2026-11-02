@@ -112,7 +112,7 @@
     flex-direction: column;
     gap: .5rem;
     font-size: .8rem;
-    color: var(--on-accent);
+    color: #1f2d49;
 }
 
 .senha-cabecalho {
@@ -123,7 +123,7 @@
 }
 
 .senha a {
-    color: var(--on-accent);
+    color: #1f2d49;
     text-decoration: none;
 }
 
