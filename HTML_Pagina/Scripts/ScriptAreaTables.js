@@ -227,7 +227,7 @@ function redimensionarBoxExpandida(box) {
     let esquerdaInicial = 0;
     let topoInicial = 0;
 
-    // Identifica em qual borda o mouse está.
+
     function identificarBorda(e) {
         const rect = box.getBoundingClientRect();
 
@@ -379,67 +379,111 @@ function redimensionarBoxExpandida(box) {
 }
 
 const blocos = [];
-function anotacoesLivres(box) {
+const MARGEM_SUPERIOR = 15;
+const LIMITE = 550;
 
-    let arrastando= false
-    let pointX=0
-    let pointY=0
-    let rect=null
-    box.addEventListener('pointerdown',(e)=>{
-        const click= e.target.closest('.newBoxTable')
-        if(!click) return
+function configurarGestoSuperior(box) {
+    let ativo = false;
+    let metadeBox = false;
+    let rect = null;
+    let guia = null;
 
-        rect = box.getBoundingClientRect()
-        if(!rect) return
+    function iniciar() {
+        ativo = true;
+        metadeBox = false;
 
-        pointX = e.clientX- rect.left
-        pointY = e.clientY- rect.right
+        guia = document.createElement('div');
+        guia.classList.add('guiaPontilhada');
 
-        e.setPointerCapture(e.pointerId)
-        arrastando = true
-    })
-
-    box.addEventListener('pointermove',(e)=>{
-
-        if(!arrastando) return;
-
-        const x=e.clientX-rect.left
-        const y=e.clientY-rect.top
-
-        const clickSuperiorBox = rect.bottom - pointY - e.eventY
-
-        if(clickSuperiorBox < rect.height/2)
-
-
-    })
-    const { width, height } = box.getBoundingClientRect();
-
-    if( width<500 || height<500 ){
-        const blocoExiste = document.querySelector('.blocoDeAnotacoes')
-        if(blocoExiste){
-            blocoExiste.remove()
-            blocos.splice(blocos.indexOf(blocoExiste), 1);
-        }
-        return
+        box.classList.add('comGuia');
+        box.append(guia);
     }
 
+    function fixar() {
+        if (!ativo) return;
+        ativo = false;
+        guia?.classList.add('fixa');
+    }
 
-    if (width <= 550 || height <= 550) return;
-    if (box.querySelector('.blocoDeAnotacoes')) return;
+    function cancelar() {
+        ativo = false;
+        guia?.remove();
+        guia = null;
+        box.classList.remove('comGuia');
+    }
 
-    const blocoAnotacoes = document.createElement('div');
-    blocoAnotacoes.classList.add('blocoDeAnotacoes');
-    blocoAnotacoes.style.background = 'black';
-    blocoAnotacoes.style.width = '300px';
-    blocoAnotacoes.style.height = '300px';
+    box.addEventListener('dblclick', (e) => {
+        if (e.target.closest('input, button')) return;
 
-    box.appendChild(blocoAnotacoes);
-    blocos.push(blocoAnotacoes);
+        pulsoDbClick(e.clientX, e.clientY);
+
+        rect = box.getBoundingClientRect();
+        const y = e.clientY - rect.top;
+        if (y > MARGEM_SUPERIOR) return;
+
+        cancelar();
+        iniciar();
+    });
+
+    box.addEventListener('pointermove', (e) => {
+        if (!ativo) return;
+
+        const y = e.clientY - rect.top;
+        const metade = rect.height / 2;
+
+        guia.style.height = `${Math.min(Math.max(y, 0), rect.height)}px`;
+        guia.classList.toggle('completa', y >= metade);
+
+        if (y >= metade && !metadeBox) {
+            metadeBox = true;
+        }
+    });
+
+    box.addEventListener('pointerdown', fixar);
+    box.addEventListener('pointerleave', fixar);
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        box.querySelector('.guiaPontilhada')?.remove();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.key ==='Delete') cancelar();
+    });
 }
-function obeserverBox(box){
-    const b =document. querySelector('.newBoxTable')
-    const observer = new ResizeObserver(()=>{
-        anotacoesLivres(box)
-    })
-    observer.observe(box)
+
+function anotacoesLivres(box) {
+    const { width, height } = box.getBoundingClientRect();
+    const existente = box.querySelector('.blocoDeAnotacoes');
+
+    if (width <= LIMITE || height <= LIMITE) {
+        if (existente) {
+            existente.remove();
+            blocos.splice(blocos.indexOf(existente), 1);
+        }
+        return;
+    }
+
+    if (existente) return;
+
+    const bloco = document.createElement('div');
+
+
+}
+
+function observarBox(box) {
+    if (!box) return;
+
+    configurarGestoSuperior(box);
+
+    const observer = new ResizeObserver(() => anotacoesLivres(box));
+    observer.observe(box);
+}
+
+function pulsoDbClick(x, y) {
+    const pulso = document.createElement('div');
+    pulso.classList.add('pulso');
+    pulso.style.left = `${x}px`;
+    pulso.style.top = `${y}px`;
+
+    document.body.appendChild(pulso);
+    pulso.addEventListener('animationend', () => pulso.remove());
 }

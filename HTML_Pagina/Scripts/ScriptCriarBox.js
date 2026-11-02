@@ -57,11 +57,13 @@ function criarBox() {
     box.style.left=`${x}px`;
     box.style.top=`${y}px`;
 
+    observarBox(box)
     configurarArrasto(box);
     configurarArrastoExpandida(box)
     redimensionarBoxExpandida(box)
     anotacoesLivres(box)
-    obeserverBox(box)
+
+    return box
 }
 ladoDirNewBox.addEventListener('click',(event)=>{
 

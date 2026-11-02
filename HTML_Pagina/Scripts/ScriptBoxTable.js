@@ -222,6 +222,8 @@ function configurarArrasto(box) {
         if (ladoEsq.classList.contains("escondido")) mostrarControles(true);
     }
 
+    let ultimoPress=0
+
     box.addEventListener("pointerdown", (event) => {
         if (event.button !== 0 || arrastando) return;
         if (
@@ -230,6 +232,12 @@ function configurarArrasto(box) {
         ) {
             return;
         }
+        const agora = performance.now();
+        const dbClick = agora - ultimoPress < 300;
+        ultimoPress = agora;
+
+        if (dbClick) return;
+
         if (event.target.closest("input, button, label, li")) return;
         iniciarGesto(event);
     });

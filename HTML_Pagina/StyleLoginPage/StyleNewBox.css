@@ -35,6 +35,7 @@
 
 .newBoxTable .inputDoTituloNovaBox {
     width: calc(100% + 20px);
+    min-width: 0;
     margin-left: -10px;
     padding: 6px 10px;
     border: none;
@@ -47,9 +48,12 @@
     line-height: 1.2;
     letter-spacing: -.01em;
     text-align: center;
+    text-overflow: ellipsis;
     transform: translateY(-6px);
+    box-sizing: border-box;
     box-shadow: 0 10px 20px rgba(0, 0, 0, .15);
     transition: background-color .15s ease, box-shadow .15s ease;
+
 }
 
 /*==================== Botão de remover o box ====================*/
@@ -194,6 +198,14 @@
     background: rgba(47, 84, 184, .5);
 }
 
+.newBoxTable .newListaDeTarefasTemplate {
+    transform-origin: left top;
+    transition: transform 0.25s;
+}
+
+.newBoxTable.comGuia.newListaDeTarefasTemplate {
+    transform: scaleX(0.5);
+}
 /*==================== Tarefa ====================*/
 
 .newBoxTable .newListaDeTarefasTemplate li {
@@ -403,4 +415,58 @@
     background: black;
     width: 300px;
     height: 300px;
+}
+
+/*=====================Double click sobre a box================*/
+
+.pulso {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    animation: pulso 0.5s ease-out forwards;
+    z-index: 9999;
+}
+
+@keyframes pulso {
+    from { transform: scale(0.3); opacity: 1; }
+    to   { transform: scale(2);   opacity: 0; }
+}
+
+/*=====================Guia pontilhada================*/
+.guiaPontilhada{
+    position: absolute;
+    pointer-events: none;
+}
+
+.guiaPontilhada {
+    left: 50%;
+    top: 0;
+    height: 0;
+    border-left: 3px dotted rgba(0, 0, 0, 0.55);
+    transition: border-color 0.2s;
+}
+
+.guiaPontilhada.completa {
+    border-color:  rgba(0, 0, 0, 0.55);
+}
+.guiaPontilhada.fixa {
+    border-left-style: dotted;
+    opacity: 0.8;
+}
+
+.newBoxTable > *:not(.guiaPontilhada) {
+    max-width: 100%;
+    transition: max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.newBoxTable.comGuia > *:not(.guiaPontilhada):not(.blocoDeAnotacoes) {
+    max-width: 50%;
+}
+.newBoxTable.comGuia .inputDoTituloNovaBox {
+    width: 100%;
 }
