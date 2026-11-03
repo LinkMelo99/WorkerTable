@@ -461,6 +461,10 @@
 .guiaPontilhada.completa {
     border-color:  rgba(0, 0, 0, 0.55);
 }
+
+.guiaPontilhada.fixa.completa {
+    height: 100% !important;
+}
 .guiaPontilhada.fixa {
     border-left-style: dotted;
     opacity: 0.8;

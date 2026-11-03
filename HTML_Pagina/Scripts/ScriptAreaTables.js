@@ -384,13 +384,11 @@ const LIMITE = 550;
 
 function configurarGestoSuperior(box) {
     let ativo = false;
-    let metadeBox = false;
-    let rect = null;
     let guia = null;
+    let ultimoClientY = 0;
 
     function iniciar() {
         ativo = true;
-        metadeBox = false;
 
         guia = document.createElement('div');
         guia.classList.add('guiaPontilhada');
@@ -412,13 +410,22 @@ function configurarGestoSuperior(box) {
         box.classList.remove('comGuia');
     }
 
+    function atualizarGuia() {
+        if (!ativo || !guia) return;
+
+        const rect = box.getBoundingClientRect();
+        const y = Math.min(Math.max(ultimoClientY - rect.top, 0), rect.height);
+
+        guia.style.height = `${y}px`;
+        guia.classList.toggle('completa', y >= rect.height / 2);
+    }
+
     box.addEventListener('dblclick', (e) => {
         if (e.target.closest('input, button')) return;
 
         pulsoDbClick(e.clientX, e.clientY);
 
-        rect = box.getBoundingClientRect();
-        const y = e.clientY - rect.top;
+        const y = e.clientY - box.getBoundingClientRect().top;
         if (y > MARGEM_SUPERIOR) return;
 
         cancelar();
@@ -427,31 +434,22 @@ function configurarGestoSuperior(box) {
 
     box.addEventListener('pointermove', (e) => {
         if (!ativo) return;
-
-        const y = e.clientY - rect.top;
-        const metade = rect.height / 2;
-
-        guia.style.height = `${Math.min(Math.max(y, 0), rect.height)}px`;
-        guia.classList.toggle('completa', y >= metade);
-
-        if (y >= metade && !metadeBox) {
-            metadeBox = true;
-        }
+        ultimoClientY = e.clientY;
+        atualizarGuia();
     });
 
     box.addEventListener('pointerdown', fixar);
     box.addEventListener('pointerleave', fixar);
+
     document.addEventListener('keydown', (e) => {
-        if (e.key !== 'Escape') return;
-        box.querySelector('.guiaPontilhada')?.remove();
+        if (e.key === 'Escape' || e.key === 'Delete') cancelar();
     });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' || e.key ==='Delete') cancelar();
-    });
+
+    return atualizarGuia;
 }
 
 function anotacoesLivres(box) {
-    const { width, height } = box.getBoundingClientRect();
+    const {width, height} = box.getBoundingClientRect();
     const existente = box.querySelector('.blocoDeAnotacoes');
 
     if (width <= LIMITE || height <= LIMITE) {
@@ -468,13 +466,15 @@ function anotacoesLivres(box) {
 
 
 }
-
 function observarBox(box) {
     if (!box) return;
 
-    configurarGestoSuperior(box);
+    const attGuia = configurarGestoSuperior(box);
 
-    const observer = new ResizeObserver(() => anotacoesLivres(box));
+    const observer = new ResizeObserver(() => {
+        anotacoesLivres(box);
+        attGuia();
+    });
     observer.observe(box);
 }
 
