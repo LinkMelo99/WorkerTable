@@ -380,7 +380,7 @@ function redimensionarBoxExpandida(box) {
 
 const blocos = [];
 const MARGEM_SUPERIOR = 15;
-const LIMITE = 550;
+const dist_botaoBloco = 60;
 
 function configurarGestoSuperior(box) {
     let ativo = false;
@@ -395,6 +395,7 @@ function configurarGestoSuperior(box) {
 
         box.classList.add('comGuia');
         box.append(guia);
+
     }
 
     function fixar() {
@@ -408,6 +409,15 @@ function configurarGestoSuperior(box) {
         guia?.remove();
         guia = null;
         box.classList.remove('comGuia');
+
+        box.querySelector('.btnCriarBlocoDeAnotacoes')?.remove()
+        const bloco= box.querySelector('.blocoDeAnotacoes')
+
+        if(bloco){
+            bloco.remove();
+            const i = blocos.indexOf(bloco);
+            if (i !== -1) blocos.splice(i, 1);
+        }
     }
 
     function atualizarGuia() {
@@ -418,6 +428,8 @@ function configurarGestoSuperior(box) {
 
         guia.style.height = `${y}px`;
         guia.classList.toggle('completa', y >= rect.height / 2);
+
+        if(y>=dist_botaoBloco) anotacoesLivres(box)
     }
 
     box.addEventListener('dblclick', (e) => {
@@ -449,23 +461,52 @@ function configurarGestoSuperior(box) {
 }
 
 function anotacoesLivres(box) {
-    const {width, height} = box.getBoundingClientRect();
-    const existente = box.querySelector('.blocoDeAnotacoes');
+    if(!box.classList.contains('comGuia'))  return
 
-    if (width <= LIMITE || height <= LIMITE) {
+    const existente = box.querySelector('.blocoDeAnotacoes');
+    const btnExistente = box.querySelector('.btnCriarBlocoDeAnotacoes');
+
         if (existente) {
             existente.remove();
-            blocos.splice(blocos.indexOf(existente), 1);
-        }
+            const i =blocos.indexOf(existente)
+            if(i!==-1){blocos.splice(i,1)
+            }
+
+        if (btnExistente) btnExistente.remove();
         return;
     }
 
-    if (existente) return;
+    if (existente || btnExistente) return;
 
-    const bloco = document.createElement('div');
+    const btn=btnCriacaoBlocos(box)
 
+    btn.addEventListener('click',()=>{
+        const bloco = document.createElement('textarea')
+        bloco.classList.add('blocoDeAnotacoes');
+        box.append(bloco)
+        blocos.push(bloco)
+        btn.remove();
+    })
 
 }
+
+function btnCriacaoBlocos(box){
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.classList.add('btnCriarBlocoDeAnotacoes');
+    btn.setAttribute('aria-label', 'Criar bloco de anotações');
+    btn.title = 'Criar bloco de anotações';
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                            fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="13" height="13" rx="3"/>
+        <path d="M6.5 7.5h6"/>
+        <rect x="6.5" y="10" width="6" height="3" rx="1.5"/>
+        <path d="M18.5 15.5v6M15.5 18.5h6"/></svg>`;
+    box.append(btn);
+    return btn;
+}
+
 function observarBox(box) {
     if (!box) return;
 

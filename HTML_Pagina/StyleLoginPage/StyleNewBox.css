@@ -481,3 +481,64 @@
 .newBoxTable.comGuia .inputDoTituloNovaBox {
     width: 100%;
 }
+
+/*======================BLOCO DE ANOTACOES=======================*/
+
+.btnCriarBlocoDeAnotacoes {
+    position: absolute;
+    flex: none;
+    top:45%;
+    right: 20%;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--cor-primaria);
+    cursor: pointer;
+    animation: aparecer 0.25s ease-out;
+    transition: transform .12s ease, filter .12s ease;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.blocoDeAnotacoes {
+    --altura-linha: 28px;
+    --cor-linha: rgba(0, 0, 0, 0.2);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 190px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 8px;
+    border: none;
+    outline: none;
+    resize: none;
+    overflow-y: auto;
+
+    font: inherit;
+    font-size: 16px;
+    line-height: var(--altura-linha);
+
+    background-color: transparent;
+    background-image: repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent calc(var(--altura-linha) - 1px),
+            var(--cor-linha) calc(var(--altura-linha) - 1px),
+            var(--cor-linha) var(--altura-linha)
+    );
+    background-size: 100% var(--altura-linha);
+    background-repeat: repeat-y;
+
+}
+
+.blocoDeAnotacoes:hover,
+.blocoDeAnotacoes:focus {
+    border: none;
+    outline: none;
+}
