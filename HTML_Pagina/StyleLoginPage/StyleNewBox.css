@@ -56,6 +56,18 @@
 
 }
 
+.newBoxTable.comGuia .tituloNovaBox {
+    width: 50%;
+    box-sizing: border-box;
+    transition: max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.newBoxTable.comGuia .inputDoTituloNovaBox {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+}
+
 /*==================== Botão de remover o box ====================*/
 
 .buttonRemoverNewBox {
@@ -132,6 +144,7 @@
     box-shadow: var(--cor-texto-suave);;
     outline: none;
 }
+
 .newBoxTable .buttonCreateBox {
     position: relative;
     flex: none;
@@ -145,7 +158,6 @@
     transition: transform .12s ease, filter .12s ease;
 }
 
-/* o "+" é desenhado com dois traços */
 .newBoxTable .buttonCreateBox::before,
 .newBoxTable .buttonCreateBox::after {
     content: "";
@@ -157,11 +169,23 @@
     transform: translate(-50%, -50%);
 }
 
-.newBoxTable .buttonCreateBox::before { width: 14px; height: 2.5px; }
-.newBoxTable .buttonCreateBox::after  { width: 2.5px; height: 14px; }
+.newBoxTable .buttonCreateBox::before {
+    width: 14px;
+    height: 2.5px;
+}
 
-.newBoxTable .buttonCreateBox:hover  { filter: brightness(1.1); }
-.newBoxTable .buttonCreateBox:active { transform: scale(.94); }
+.newBoxTable .buttonCreateBox::after {
+    width: 2.5px;
+    height: 14px;
+}
+
+.newBoxTable .buttonCreateBox:hover {
+    filter: brightness(1.1);
+}
+
+.newBoxTable .buttonCreateBox:active {
+    transform: scale(.94);
+}
 
 /*==================== Lista de tarefas ====================*/
 
@@ -206,6 +230,7 @@
 .newBoxTable.comGuia.newListaDeTarefasTemplate {
     transform: scaleX(0.5);
 }
+
 /*==================== Tarefa ====================*/
 
 .newBoxTable .newListaDeTarefasTemplate li {
@@ -302,7 +327,7 @@
 
 .newBoxTable .acoes .buttonData,
 .newBoxTable .acoes .buttonRemover,
-.newBoxTable .acoes .buttonParticipantes{
+.newBoxTable .acoes .buttonParticipantes {
     padding: 0;
     font-size: .85rem;
 }
@@ -367,8 +392,13 @@
     transition: transform .4s ease-in-out
 }
 
-.newBoxTable .datasInicioeFim label { width: 150px; }
-.newBoxTable .descricaoNotes label  { width: 100%; }
+.newBoxTable .datasInicioeFim label {
+    width: 150px;
+}
+
+.newBoxTable .descricaoNotes label {
+    width: 100%;
+}
 
 .newBoxTable .dataInicio,
 .newBoxTable .dataFim,
@@ -440,12 +470,18 @@
 }
 
 @keyframes pulso {
-    from { transform: scale(0.3); opacity: 1; }
-    to   { transform: scale(2);   opacity: 0; }
+    from {
+        transform: scale(0.3);
+        opacity: 1;
+    }
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
 }
 
 /*=====================Guia pontilhada================*/
-.guiaPontilhada{
+.guiaPontilhada {
     position: absolute;
     pointer-events: none;
 }
@@ -459,12 +495,13 @@
 }
 
 .guiaPontilhada.completa {
-    border-color:  rgba(0, 0, 0, 0.55);
+    border-color: rgba(0, 0, 0, 0.55);
 }
 
 .guiaPontilhada.fixa.completa {
     height: 100% !important;
 }
+
 .guiaPontilhada.fixa {
     border-left-style: dotted;
     opacity: 0.8;
@@ -475,43 +512,67 @@
     transition: max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.newBoxTable.comGuia > *:not(.guiaPontilhada):not(.blocoDeAnotacoes) {
-    max-width: 50%;
-}
-.newBoxTable.comGuia .inputDoTituloNovaBox {
+.newBoxTable > *:not(.guiaPontilhada):not(.divBloco) {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.newBoxTable.comGuia > *:not(.guiaPontilhada):not(.divBloco):not(.btnCriarBlocoDeAnotacoes) {
+    width: 50%;
+    max-width: 50%;
 }
 
 /*======================BLOCO DE ANOTACOES=======================*/
 
 .btnCriarBlocoDeAnotacoes {
     position: absolute;
-    flex: none;
-    top:45%;
-    right: 20%;
-    width: 34px;
-    height: 34px;
-    padding: 0;
-    border: 0;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    max-width: 40px !important;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    border: none;
     border-radius: 50%;
-    background: var(--cor-primaria);
+    background: #2f54b8;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    animation: aparecer 0.25s ease-out;
-    transition: transform .12s ease, filter .12s ease;
+    animation: aparecer 1s ease-out forwards;
 }
 
 @keyframes aparecer {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
+
+.divBloco {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
 .blocoDeAnotacoes {
     --altura-linha: 28px;
     --cor-linha: rgba(0, 0, 0, 0.2);
 
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 190px;
+    position: relative;
+    width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding: 0 8px;
@@ -532,13 +593,44 @@
             var(--cor-linha) calc(var(--altura-linha) - 1px),
             var(--cor-linha) var(--altura-linha)
     );
+
     background-size: 100% var(--altura-linha);
     background-repeat: repeat-y;
 
+    animation: surgirLinhas 0.5s forwards;
 }
 
-.blocoDeAnotacoes:hover,
-.blocoDeAnotacoes:focus {
+@keyframes surgirLinhas {
+
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+
+}
+
+.divBloco::-webkit-scrollbar {
+    width: 4px;
+}
+
+.divBloco::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.divBloco::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(47, 84, 184, .3);
+}
+
+.divBloco::-webkit-scrollbar-thumb:hover {
+    background: rgba(47, 84, 184, .5);
+}
+
+.divBloco:hover,
+.divBloco:focus {
     border: none;
     outline: none;
 }
+

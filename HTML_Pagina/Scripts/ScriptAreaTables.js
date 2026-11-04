@@ -206,7 +206,9 @@ function removerForButtonBox() {
         if (!miniatura) return;
 
         (miniatura.closest('.botoesMiniatura, .estiloMiniaturaPasta') || miniatura).remove();
-    }, true);}
+    }, true);
+}
+
 removerForButtonBox()
 
 
@@ -406,17 +408,25 @@ function configurarGestoSuperior(box) {
 
     function cancelar() {
         ativo = false;
+
         guia?.remove();
         guia = null;
+
         box.classList.remove('comGuia');
 
-        box.querySelector('.btnCriarBlocoDeAnotacoes')?.remove()
-        const bloco= box.querySelector('.blocoDeAnotacoes')
+        const btn = box.querySelector('.btnCriarBlocoDeAnotacoes');
+        btn?.remove();
 
-        if(bloco){
-            bloco.remove();
+        const bloco = box.querySelector('.blocoDeAnotacoes');
+
+        if (bloco) {
             const i = blocos.indexOf(bloco);
-            if (i !== -1) blocos.splice(i, 1);
+
+            if (i !== -1) {
+                blocos.splice(i, 1);
+            }
+
+            bloco.closest('.divBloco')?.remove();
         }
     }
 
@@ -429,7 +439,7 @@ function configurarGestoSuperior(box) {
         guia.style.height = `${y}px`;
         guia.classList.toggle('completa', y >= rect.height / 2);
 
-        if(y>=dist_botaoBloco) anotacoesLivres(box)
+        if (y >= dist_botaoBloco) anotacoesLivres(box)
     }
 
     box.addEventListener('dblclick', (e) => {
@@ -461,36 +471,32 @@ function configurarGestoSuperior(box) {
 }
 
 function anotacoesLivres(box) {
-    if(!box.classList.contains('comGuia'))  return
+    if (!box.classList.contains('comGuia')) return
 
     const existente = box.querySelector('.blocoDeAnotacoes');
     const btnExistente = box.querySelector('.btnCriarBlocoDeAnotacoes');
 
-        if (existente) {
-            existente.remove();
-            const i =blocos.indexOf(existente)
-            if(i!==-1){blocos.splice(i,1)
-            }
-
-        if (btnExistente) btnExistente.remove();
-        return;
-    }
-
     if (existente || btnExistente) return;
 
-    const btn=btnCriacaoBlocos(box)
+    const btn = btnCriacaoBlocos(box)
 
-    btn.addEventListener('click',()=>{
+    btn.addEventListener('click', () => {
+        const divBloco = document.createElement('div')
+        divBloco.classList.add('divBloco')
+
         const bloco = document.createElement('textarea')
         bloco.classList.add('blocoDeAnotacoes');
-        box.append(bloco)
-        blocos.push(bloco)
-        btn.remove();
-    })
 
+        divBloco.append(bloco)
+        blocos.push(bloco)
+
+        btn.remove();
+
+        box.append(divBloco)
+    })
 }
 
-function btnCriacaoBlocos(box){
+function btnCriacaoBlocos(box) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.classList.add('btnCriarBlocoDeAnotacoes');
@@ -504,8 +510,10 @@ function btnCriacaoBlocos(box){
         <rect x="6.5" y="10" width="6" height="3" rx="1.5"/>
         <path d="M18.5 15.5v6M15.5 18.5h6"/></svg>`;
     box.append(btn);
+
     return btn;
 }
+
 
 function observarBox(box) {
     if (!box) return;
@@ -515,6 +523,13 @@ function observarBox(box) {
     const observer = new ResizeObserver(() => {
         anotacoesLivres(box);
         attGuia();
+
+        const divText = box.querySelector('.blocoDeAnotacoes');
+        if (!divText) return;
+
+        divText.style.width = `${rect.width}px`
+        divText.style.height = `${rect.height}px`
+
     });
     observer.observe(box);
 }
