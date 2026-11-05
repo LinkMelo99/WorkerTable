@@ -1,8 +1,29 @@
 # WorkTable
 
-**WorkTable** is a browser-based task management and organization application inspired by Kanban boards. It allows users to create customizable boxes (columns), add tasks with descriptions and due dates, organize boxes into folders, and take free-form notes — all within a single-page, client-side web application.
+**WorkTable** is a full-stack task management and organization application inspired by Kanban boards. It consists of a **frontend** (client-side web app) and a **backend** (Spring Boot REST API). The frontend allows users to create customizable boxes (columns), add tasks with descriptions and due dates, organize boxes into folders, and take free-form notes.
 
 The interface is in **Portuguese (Brazil)**.
+
+---
+
+## Repository Branches
+
+This repository uses two branches to separate frontend and backend code:
+
+| Branch | Description |
+|---|---|
+| **`frontend`** | Client-side web application (HTML, CSS, Vanilla JavaScript) |
+| **`backend`** | Server-side Spring Boot application (Java, Maven, Docker) |
+
+To switch between branches:
+
+```bash
+# For frontend development:
+git checkout frontend
+
+# For backend development:
+git checkout backend
+```
 
 ---
 
@@ -80,6 +101,8 @@ WorkTable_Pagina/
 
 ## Technologies
 
+### Frontend
+
 | Technology | Purpose |
 |---|---|
 | **HTML5** | Structure and semantic markup (`<template>`, `<dialog>`) |
@@ -90,22 +113,38 @@ WorkTable_Pagina/
 | **Pointer Events API** | Drag-and-drop and resize interactions |
 | **ResizeObserver** | Dynamic box size tracking |
 
+### Backend
+
+| Technology | Purpose |
+|---|---|
+| **Java** | Backend programming language |
+| **Spring Boot** | REST API framework |
+| **Maven** | Build and dependency management |
+| **Docker** | Containerization for deployment |
+
 ---
 
 ## Getting Started
 
-### Prerequisites
+### Frontend
+
+#### Prerequisites
 - A modern web browser (Chrome, Firefox, Edge, or Safari)
 - No build tools or server required — the app runs directly from static files
 
-### Running the Application
+#### Running the Frontend
 
-1. **Open the HTML file directly** in your browser:
+1. **Checkout the frontend branch**:
+   ```bash
+   git checkout frontend
+   ```
+
+2. **Open the HTML file directly** in your browser:
    ```
    HTML_Pagina/index.html
    ```
 
-2. **Or use a local server** (recommended for best compatibility):
+3. **Or use a local server** (recommended for best compatibility):
    ```bash
    # Using Python
    cd HTML_Pagina
@@ -115,6 +154,41 @@ WorkTable_Pagina/
    npx serve HTML_Pagina
    ```
    Then navigate to `http://localhost:8000`
+
+### Backend
+
+#### Prerequisites
+- **Java JDK 17+** installed
+- **Maven** for build and dependency management
+- **Docker** (optional, for containerized deployment)
+
+#### Running the Backend
+
+1. **Checkout the backend branch**:
+   ```bash
+   git checkout backend
+   ```
+
+2. **Build the project**:
+   ```bash
+   # Using Maven wrapper
+   ./mvnw clean install
+
+   # Or using Maven directly
+   mvn clean install
+   ```
+
+3. **Run the application**:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+   The backend API will be available at `http://localhost:8080`
+
+4. **Or run with Docker**:
+   ```bash
+   docker build -t worktable-backend .
+   docker run -p 8080:8080 worktable-backend
+   ```
 
 ---
 
