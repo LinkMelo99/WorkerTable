@@ -1,0 +1,296 @@
+/* =====================================================================
+   SANDBOX (pasta transparente que guarda as miniaturas das boxes)
+   ---------------------------------------------------------------------
+   Estrutura do HTML:
+
+   <div class="SandBox">                 <- div externa (este bloco)
+       <div class="armazenamentoPasta">  <- guarda as boxes de verdade (escondidas)
+       <div class="miniaturasPasta">     <- div interna com as miniaturas
+   </div>
+
+   COMPORTAMENTO:
+   - Por padrão a SandBox tem altura automática e cresce com as miniaturas.
+   - Se você redimensionar (o JS grava height inline), a altura fica fixa
+     e as miniaturas rolam dentro do .miniaturasPasta.
+
+   ===================================================================== */
+.SandBox {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+
+    width: 320px;
+    height: auto;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+
+    padding: 16px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, .5);
+    -webkit-backdrop-filter: blur(10px) saturate(160%);
+    backdrop-filter: blur(10px) saturate(160%);
+
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: 22px;
+
+    box-shadow: 0 8px 32px rgba(31, 38, 135, .22),
+    inset 0 1px 0 rgba(255, 255, 255, .15);
+
+    color: black;
+    font-family: var(--font-ui);
+    font-weight: 600;
+
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+
+    transition: box-shadow .2s ease;
+}
+
+.SandBox:active {
+    cursor: grabbing;
+
+    box-shadow: 0 4px 16px rgba(31, 38, 135, .3),
+    inset 0 1px 0 rgba(255, 255, 255, .6);
+}
+
+@supports not (
+    (backdrop-filter: blur(1px)) or
+    (-webkit-backdrop-filter: blur(1px))
+) {
+    .SandBox {
+        background: rgba(255, 255, 255, .7);
+    }
+}
+
+/* Texto de dica ("Arraste as Box's"), vindo do atributo data-dica.*/
+.SandBox::before {
+    content: attr(data-dica);
+
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 16px;
+    box-sizing: border-box;
+
+    text-align: center;
+    color: rgba(0, 0, 0, .45);
+    font-size: .9rem;
+    font-weight: 400;
+
+    pointer-events: none;
+}
+.SandBox:has(.miniaturaPasta)::before {
+    display: none;
+}
+
+
+/* =====================================================================
+   ÁREA DAS MINIATURAS (div interna)
+   ---------------------------------------------------------------------
+   As miniaturas ficam lado a lado e quebram de linha quando faltar
+   espaço. A altura é automática, então a div cresce a cada miniatura
+   nova e empurra a SandBox junto.
+   ===================================================================== */
+.miniaturasPasta {
+    display: flex;
+    flex-wrap: wrap;          /* quebra de linha quando não couber */
+    align-items: flex-start;
+    gap: 8px;                 /* espaço entre as miniaturas */
+
+    height: auto;             /* NUNCA colocar altura fixa aqui */
+
+    /* ROLAGEM: a rolagem fica aqui, e não na .SandBox.
+       - flex: 1 1 auto  -> ocupa o espaço disponível dentro da SandBox
+       - min-height: 0   -> deixa a div encolher abaixo do tamanho do
+                            conteúdo (sem isso o flex não deixa e não rola)
+       - overflow-y      -> aparece a barra quando as miniaturas não cabem */
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-content: flex-start; /* linhas ficam coladas no topo ao rolar */
+
+    touch-action: pan-y;       /* permite rolar com o dedo no celular
+                                  (a SandBox tem touch-action: none) */
+}
+
+/* Barra de rolagem discreta, combinando com o visual de vidro */
+.miniaturasPasta::-webkit-scrollbar {
+    width: 6px;
+}
+
+.miniaturasPasta::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .25);
+    border-radius: 10px;
+}
+
+
+/* =====================================================================
+   MINIATURA (botão com o nome da box guardada)
+   ===================================================================== */
+.miniaturaPasta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 100%;
+    padding: 8px 12px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, .65);
+    border: 1px solid rgba(255, 255, 255, .7);
+    border-radius: 12px;
+
+    color: #202020;
+    font-size: .85rem;
+    font-weight: 500;
+    font-family: var(--font-ui);
+
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation; /* toque rápido, sem zoom por duplo toque */
+
+    overflow-wrap: anywhere;    /* quebra títulos muito longos */
+
+    transition: background .2s ease,
+    transform .2s ease;
+}
+
+.miniaturaPasta:hover {
+    background: rgba(255, 255, 255, .9);
+    transform: translateY(-2px); /* sobe um pouco ao passar o mouse */
+}
+
+
+/* =====================================================================
+   ARMAZENAMENTO (div que guarda as boxes de verdade)
+   ---------------------------------------------------------------------
+   Fica vazia visualmente: as boxes dentro dela ficam escondidas e só
+   aparecem quando a miniatura é clicada.
+   ===================================================================== */
+.armazenamentoPasta {
+    position: static; /* sem criar nova referência de posição: a box
+                         expandida se posiciona em relação à .SandBox */
+    height: auto;
+}
+
+/* Boxes guardadas: escondidas por padrão */
+.armazenamentoPasta .newBoxTable {
+    display: none;
+}
+
+/* Box guardada que foi aberta ao clicar na miniatura:
+   aparece ao lado direito da SandBox */
+.armazenamentoPasta .newBoxTable.expandida {
+    display: block;
+    position: absolute;
+
+    top: 0;
+    left: calc(100% + 12px); /* 100% da SandBox + 12px de folga */
+
+    width: 320px;
+    height: 240px;
+    max-height: none;
+
+    padding: 16px;
+    box-sizing: border-box;
+
+    z-index: 10;             /* fica acima das outras boxes */
+    cursor: grab;
+}
+
+
+/* =====================================================================
+   PÍLULA DA MINIATURA (miniatura + botão de remover)
+   ---------------------------------------------------------------------
+   <div class="botoesMiniatura">
+       <button class="miniaturaPasta">...</button>
+       <button class="botaoRemoverMiniatura">x</button>
+   </div>
+   ===================================================================== */
+.botoesMiniatura {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    max-width: 100%;
+    padding: 4px 6px 4px 12px;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, .65);
+    border: 1px solid rgba(255, 255, 255, .7);
+    border-radius: 999px;     /* formato de pílula */
+
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.botoesMiniatura:hover {
+    background: rgba(255, 255, 255, .92);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(31, 38, 135, .18);
+}
+
+/* Dentro da pílula, o botão da miniatura perde o visual próprio
+   (fundo, borda e efeito de hover), porque quem desenha é a pílula */
+.botoesMiniatura .miniaturaPasta {
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    transform: none;
+}
+
+.botoesMiniatura .miniaturaPasta:hover {
+    background: none;
+    transform: none;
+}
+
+
+/* =====================================================================
+   BOTÃO "x" PARA REMOVER A MINIATURA
+   ===================================================================== */
+.botaoRemoverMiniatura {
+    display: grid;
+    place-items: center;      /* centraliza o "x" */
+    flex-shrink: 0;           /* não deixa o botão amassar */
+
+    width: 18px;
+    height: 18px;
+    padding: 0;
+
+    background: rgba(0, 0, 0, .12);
+    border: 0;
+    border-radius: 50%;       /* círculo */
+
+    color: #202020;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+
+    transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+
+/* Hover: fica vermelho e cresce um pouco */
+.botaoRemoverMiniatura:hover {
+    background: #ef4444;
+    color: #fff;
+    transform: scale(1.12);
+}
+
+/* Clique: encolhe, dando sensação de botão pressionado */
+.botaoRemoverMiniatura:active {
+    transform: scale(.9);
+}
+
+/* Acessibilidade: contorno azul ao navegar pelo teclado (Tab) */
+.botaoRemoverMiniatura:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}

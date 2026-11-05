@@ -2,10 +2,16 @@ const ladoDirNewBox = document.getElementById('ladoDir');
 const cloneTemplate = document.getElementById('createBox');
 const buttonAddBox = document.getElementById('btnAdd');
 
+let contidBox = 0
+
 function criarBox() {
     const clone = cloneTemplate.content.cloneNode(true);
 
     const box = clone.querySelector('.newBoxTable');
+
+    box.idBox = contidBox++
+
+    console.log('idbox',box.idBox)
 
     const inputTitulo = clone.querySelector('.inputDoTituloNovaBox');
     const inputTarefa = clone.querySelector('.inputNomeNovaBoxTarefa');

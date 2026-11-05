@@ -397,7 +397,6 @@ function configurarGestoSuperior(box) {
 
         box.classList.add('comGuia');
         box.append(guia);
-
     }
 
     function fixar() {
@@ -464,13 +463,20 @@ function configurarGestoSuperior(box) {
     box.addEventListener('pointerleave', fixar);
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' || e.key === 'Delete') cancelar();
+        const box = e.target.closest('.newBoxTable')
+        if(!box)return
+
+        if (e.key === 'Escape' || e.key === 'Delete') {
+           cancelar();
+        }
     });
 
     return atualizarGuia;
 }
 
+const anotacoes = new Map;
 function anotacoesLivres(box) {
+    const id = box.idBox;
     if (!box.classList.contains('comGuia')) return
 
     const existente = box.querySelector('.blocoDeAnotacoes');
@@ -478,23 +484,36 @@ function anotacoesLivres(box) {
 
     if (existente || btnExistente) return;
 
-    const btn = btnCriacaoBlocos(box)
-
-    btn.addEventListener('click', () => {
+    function textArea() {
         const divBloco = document.createElement('div')
         divBloco.classList.add('divBloco')
 
         const bloco = document.createElement('textarea')
         bloco.classList.add('blocoDeAnotacoes');
 
+        bloco.value = anotacoes.get(id) ?? '';
+        bloco.addEventListener('input', () => {
+            anotacoes.set(id, bloco.value);
+        });
+
         divBloco.append(bloco)
-        blocos.push(bloco)
-
-        btn.remove();
-
         box.append(divBloco)
+        blocos.push(bloco)
+    }
+
+    if (anotacoes.has(id)) {
+        textArea()
+        return
+    }
+
+    const btn = btnCriacaoBlocos(box)
+    btn.addEventListener('click', () => {
+        textArea()
+
+        btn.remove()
     })
 }
+
 
 function btnCriacaoBlocos(box) {
     const btn = document.createElement('button');
