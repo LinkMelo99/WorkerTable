@@ -11,7 +11,6 @@ function criarBox() {
 
     box.idBox = contidBox++
 
-    console.log('idbox',box.idBox)
 
     const inputTitulo = clone.querySelector('.inputDoTituloNovaBox');
     const inputTarefa = clone.querySelector('.inputNomeNovaBoxTarefa');

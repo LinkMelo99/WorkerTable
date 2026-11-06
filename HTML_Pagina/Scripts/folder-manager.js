@@ -562,3 +562,63 @@ function pulsoDbClick(x, y) {
     document.body.appendChild(pulso);
     pulso.addEventListener('animationend', () => pulso.remove());
 }
+
+
+//====================================================================================//
+//   Animacao da caixa transparente - Redimensionamento da newListaDeTarefasTemplate
+//====================================================================================//
+
+function RedimensionamentoListaDeTarefas(box){
+    let compacto = false
+
+    const limite_inf = 200
+    const limite_sup = 220
+
+    const tarefas = box.querySelector('.newListaDeTarefasTemplate')
+    if(!tarefas) return
+
+    const observer = new ResizeObserver(([entrada])=>{
+        const largura = entrada.contentRect.width
+
+        if(largura <= limite_inf && !compacto ) {
+            compacto=true
+            miniaturaDeTarefas(tarefas)
+        }else if( largura >= limite_sup && compacto){
+            compacto = false
+            restaurarTarefas(box)
+        }
+
+    })
+    observer.observe(box)
+
+    function miniaturaDeTarefas(tarefas){
+
+        const divCompacta = document.createElement('div')
+        divCompacta.classList.add('tarefasCompactas')
+        divCompacta.style.background='black'
+
+        while(tarefas.children.length>0){
+            divCompacta.appendChild(tarefas.children[0])
+        }
+        tarefas.append(divCompacta)
+        return divCompacta
+
+    }
+
+    function restaurarTarefas(box){
+        const tarefasTemplate =box.querySelector('.newListaDeTarefasTemplate')
+        const tarefaCompat= box.querySelector('.tarefasCompactas');
+
+        if (!tarefasTemplate || !tarefaCompat) return;
+
+        while(tarefaCompat.children.length>0){
+            tarefasTemplate.appendChild(tarefaCompat.children[0])
+        }
+        tarefaCompat.remove()
+
+    }
+}
+document.querySelectorAll('.newBoxTable').forEach(box => {
+    RedimensionamentoListaDeTarefas(box);
+});
+
